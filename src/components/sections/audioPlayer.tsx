@@ -1,24 +1,26 @@
 import Slider from '@react-native-community/slider';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {forwardRef, useEffect, useImperativeHandle, useState} from 'react';
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import TrackPlayer, {useProgress} from 'react-native-track-player';
+import {IReciter, ISurahVerse} from '../../@types';
 import {COLORS, IMAGES} from '../../common';
 import {useAudioPlayerController} from '../../hooks';
-import AudioPlayerControls from './audioPlayerControls';
-import {IModalRef, IReciter, ISurahVerse} from '../../@types';
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
 import {RecitersModal} from '../modals';
+import AudioPlayerControls from './audioPlayerControls';
 interface IProps {
   allReciter: IReciter[];
   setSelectedVerse: (verse: ISurahVerse) => void;
   chapterId: number;
   selectedVerse: ISurahVerse;
 }
+const {height} = Dimensions.get('screen');
 const AudioPlayer = (props: IProps, ref: any) => {
   const {allReciter, setSelectedVerse, chapterId, selectedVerse} = props;
   const [selectedReciter, setSelectedReciter] = useState<IReciter>();
@@ -48,9 +50,9 @@ const AudioPlayer = (props: IProps, ref: any) => {
     if (allReciter?.length > 0) setSelectedReciter(allReciter[0]);
   }, [allReciter]);
   const closeAudioPlayer = async () => {
+    setShowPlayer(false);
     await TrackPlayer.pause();
     setSelectedVerse({} as ISurahVerse);
-    setShowPlayer(false);
   };
   return (
     showPlayer && (
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     position: 'absolute',
-    bottom: 20,
+    bottom: 10,
   },
   row: {
     flexDirection: 'row',

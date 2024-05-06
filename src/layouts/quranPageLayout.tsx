@@ -1,10 +1,11 @@
 import {ReactNode, useEffect, useRef, useState} from 'react';
-import {FlatList, SafeAreaView, View} from 'react-native';
+import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {IAudioPlayerRef, IPageVersesListRef, ISurahVerse} from '../@types';
-import {AudioPlayer, PageVersesList} from '../components';
+import {AudioPlayer, Loader, PageVersesList} from '../components';
 import {useGetChapterByPage, useGetChapterLookup} from '../hooks';
 import useGetReciters from '../hooks/apis/useGetReciters';
+import {COLORS} from '../common';
 interface IProps {
   chapterId: number;
   type?: 'chapter';
@@ -22,7 +23,7 @@ const QuranPageLayout = ({
     chapterId,
     type,
   });
-  const {chapterVerses, onEndReached} = useGetChapterByPage({
+  const {chapterVerses, onEndReached, isLoading} = useGetChapterByPage({
     chapterLookUp,
     chapterId,
     type,
@@ -33,6 +34,11 @@ const QuranPageLayout = ({
   const [selectedVerse, setSelectedVerse] = useState<ISurahVerse>(
     {} as ISurahVerse,
   );
+  const onContainerPress = () => {
+    audioPlayerRef?.current?.setShowPlayerHandler(
+      !audioPlayerRef?.current?.isPlayerShown(),
+    );
+  };
 
   useEffect(() => {
     TrackPlayer.setupPlayer();
@@ -53,25 +59,30 @@ const QuranPageLayout = ({
         }}>
         {chapterHeader}
       </View>
-      <View style={{flex: 1}}>
-        <FlatList
-          data={chapterVerses}
-          contentContainerStyle={{
-            flexGrow: 0,
-          }}
-          pagingEnabled
-          horizontal
-          onEndReached={onEndReached}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => (
-            <PageVersesList
-              verseToDisplay={item?.verses}
-              audioPlayerRef={audioPlayerRef}
-              selectedVerse={selectedVerse}
-              setSelectedVerse={setSelectedVerse}
-            />
-          )}
-        />
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <FlatList
+            data={chapterVerses}
+            contentContainerStyle={{
+              flexGrow: 0,
+            }}
+            pagingEnabled
+            horizontal
+            onEndReached={onEndReached}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item}) => (
+              <PageVersesList
+                verseToDisplay={item?.verses}
+                audioPlayerRef={audioPlayerRef}
+                selectedVerse={selectedVerse}
+                setSelectedVerse={setSelectedVerse}
+                onContainerPress={onContainerPress}
+              />
+            )}
+          />
+        )}
         <AudioPlayer
           ref={audioPlayerRef}
           chapterId={chapterId}

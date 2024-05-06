@@ -22,7 +22,7 @@ const useOptionsModalController = ({
   setIsVisible,
   seSelectedVerse,
 }: IProps) => {
-  const {getVerseAudio} = useGetChapterAudio();
+  const {getVerseAudio, isVersePositionLoading} = useGetChapterAudio();
 
   const onPlayerPress = () => {
     getVerseAudio(
@@ -63,6 +63,7 @@ const useOptionsModalController = ({
     copyVerseToClipBoard,
     onPlayerPress,
     onRequestClose,
+    isVersePositionLoading,
   };
 };
 

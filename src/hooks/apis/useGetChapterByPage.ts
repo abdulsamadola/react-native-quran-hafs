@@ -18,6 +18,7 @@ const useGetChapterByPage = ({
 }: IProps) => {
   const [chapterVerses, setChapterVerse] = useState<IChapterVerses[]>([]);
   const [activePage, setActivePage] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const {downoladThePageFont} = usePageFontFileController();
   const {_renderVersesNewForm} = usePageLineController();
@@ -48,6 +49,7 @@ const useGetChapterByPage = ({
               page_number,
             },
           ]);
+          if (isLoading) setIsLoading(false);
         },
         QURAN_FONTS_API,
       );
@@ -75,7 +77,7 @@ const useGetChapterByPage = ({
       return queryString;
     } else return '';
   };
-  return {chapterVerses, onEndReached};
+  return {chapterVerses, onEndReached, isLoading};
 };
 
 export default useGetChapterByPage;

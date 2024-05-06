@@ -1,26 +1,36 @@
 import TrackPlayer from 'react-native-track-player';
 import {QURAN_API} from '../../common';
 import {axiosInstance} from '../../utils';
+import {useState} from 'react';
 
+let timeoutAudio: any;
 const useGetChapterAudio = () => {
+  const [isVersePositionLoading, setIsVersePositionLoading] = useState(false);
   const getVerseAudio = async (
     reciterId: number,
     verseKey: string,
     callback?: () => void,
   ) => {
+    // clear timeout created before
+    clearTimeout(timeoutAudio);
     try {
+      setIsVersePositionLoading(true);
       const url = `${QURAN_API}/audio/reciters/${reciterId}/timestamp?verse_key=${verseKey}`;
       const response = await axiosInstance.get(url);
       const result = response.data?.result;
+      setIsVersePositionLoading(false);
       const start = result.timestamp_from / 1000;
       await TrackPlayer.play();
       await TrackPlayer.seekTo(start);
       if (callback) callback();
       const stop = result.timestamp_to / 1000 - result.timestamp_from / 1000;
-      setTimeout(() => {
+      timeoutAudio = setTimeout(() => {
         TrackPlayer.pause();
+        clearTimeout(timeoutAudio);
       }, stop * 1000);
-    } catch (e) {}
+    } catch (e) {
+      setIsVersePositionLoading(false);
+    }
   };
 
   const getChapterAudionUrl = async ({
@@ -71,7 +81,7 @@ const useGetChapterAudio = () => {
     ]);
     if (verse_key) getVerseAudio(reciterId as number, verse_key);
   };
-  return {getChapterAudionUrl, getVerseAudio};
+  return {getChapterAudionUrl, getVerseAudio, isVersePositionLoading};
 };
 
 export default useGetChapterAudio;

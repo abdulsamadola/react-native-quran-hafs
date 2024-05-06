@@ -1,11 +1,11 @@
-import React, {
-  MutableRefObject,
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
-import {Dimensions, FlatList, PixelRatio, View} from 'react-native';
+import React, {MutableRefObject, useRef, useState} from 'react';
+import {
+  Dimensions,
+  FlatList,
+  PixelRatio,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
   IAudioPlayerRef,
   ILineNumber,
@@ -20,12 +20,18 @@ interface IProps {
   selectedVerse: ISurahVerse;
   verseToDisplay: ILineNumber[] | undefined;
   audioPlayerRef: MutableRefObject<IAudioPlayerRef | undefined>;
+  onContainerPress: () => void;
 }
 const {width, height} = Dimensions.get('screen');
 
 const PageVersesList = (props: IProps) => {
-  const {verseToDisplay, audioPlayerRef, selectedVerse, setSelectedVerse} =
-    props;
+  const {
+    verseToDisplay,
+    audioPlayerRef,
+    selectedVerse,
+    setSelectedVerse,
+    onContainerPress,
+  } = props;
   const optionsModalRef = useRef<IModalRef>();
   const [selectedVerseLocation, setSelectedVerseLocation] =
     useState<ISelectedVerseLocation>();
@@ -43,7 +49,10 @@ const PageVersesList = (props: IProps) => {
   };
   const pageNumber = verseToDisplay && verseToDisplay[0]?.page_number;
   return (
-    <View style={{flex: 1}}>
+    <TouchableOpacity
+      style={{flex: 1}}
+      activeOpacity={1}
+      onPress={onContainerPress}>
       <FlatList
         data={verseToDisplay}
         style={{
@@ -79,7 +88,7 @@ const PageVersesList = (props: IProps) => {
         handlePlayPress={handlePlayPress}
         selectedReciter={audioPlayerRef?.current?._renderSelelctedReciter()}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
-export default forwardRef(PageVersesList);
+export default PageVersesList;

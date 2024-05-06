@@ -10,14 +10,15 @@
     "test": "jest"
   },
   "dependencies": {
-    "react": "18.2.0",
-    "react-native": "0.74.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-clipboard/clipboard": "^1.14.1",
     "@react-native-community/slider": "^4.5.2",
     "axios": "^1.6.8",
+    "react": "18.2.0",
+    "react-native": "0.74.0",
     "react-native-dynamic-fonts": "^0.3.2",
     "react-native-fs": "^2.20.0",
+    "react-native-quran-hafs": "^1.0.3",
     "react-native-track-player": "^4.1.1"
   },
   "devDependencies": {

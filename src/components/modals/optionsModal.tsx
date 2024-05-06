@@ -11,6 +11,7 @@ import {IOptionsModal} from '../../@types';
 import {COLORS} from '../../common';
 import IMAGES from '../../common/images';
 import {useOptionsModalController} from '../../hooks';
+import {Loader} from '../sections';
 
 const OptionsModal = (props: IOptionsModal, ref: any) => {
   const {
@@ -28,6 +29,7 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
     onPlayerPress,
     copyVerseToClipBoard,
     onRequestClose,
+    isVersePositionLoading,
   } = useOptionsModalController({
     selectedVerseLocation,
     selectedVerse,
@@ -71,7 +73,11 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
               } as any,
             ]}>
             <TouchableOpacity onPress={onPlayerPress}>
-              <Image source={IMAGES.playIcon} style={styles.icon} />
+              {isVersePositionLoading ? (
+                <Loader />
+              ) : (
+                <Image source={IMAGES.playIcon} style={styles.icon} />
+              )}
             </TouchableOpacity>
             <TouchableOpacity onPress={copyVerseToClipBoard}>
               <Image source={IMAGES.copyIcon} style={styles.icon} />

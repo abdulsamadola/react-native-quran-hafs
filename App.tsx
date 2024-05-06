@@ -1,9 +1,9 @@
-import {QuranPageLayout} from './react-native-quran-hafs';
+import {QuranPageLayout} from './src';
 
 const App = () => {
   return (
     <QuranPageLayout
-      chapterId={2}
+      chapterId={6}
       QURAN_FONTS_API="https://qubaa-shared-public.b-cdn.net/qubaa/dev/quran-font/"
     />
   );

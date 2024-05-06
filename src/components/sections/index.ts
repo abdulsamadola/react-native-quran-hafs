@@ -1,3 +1,4 @@
 import AudioPlayer from './audioPlayer';
 import AudioPlayerControls from './audioPlayerControls';
-export {AudioPlayer, AudioPlayerControls};
+import Loader from './loader';
+export {AudioPlayer, AudioPlayerControls, Loader};

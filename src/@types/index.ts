@@ -90,7 +90,7 @@ export interface IReciter {
 export interface IAudioPlayerRef {
   setShowPlayerHandler: (value: boolean) => void;
   _renderSelelctedReciter: () => IReciter;
-  isPlayerShown: () => void;
+  isPlayerShown: () => boolean;
 }
 
 export interface IModalRef {
