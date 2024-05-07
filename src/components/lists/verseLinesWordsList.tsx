@@ -6,6 +6,7 @@ import {
   PixelRatio,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import {ISelectedVerseLocation, ISurahVerse, IVerseWord} from '../../@types';
 import {usePageFontFileController} from '../../hooks';
@@ -19,9 +20,8 @@ interface IProps {
   setSelectedVerseLocation: (value: ISelectedVerseLocation) => void;
 }
 const getFontSize = (size: number) => {
-  // value to adjust
-  const division = width / size;
-  return width / division;
+  const fontScale = PixelRatio.getFontScale();
+  return size / fontScale;
 };
 const VerseLinesWordsList = ({
   item,
@@ -44,19 +44,15 @@ const VerseLinesWordsList = ({
     });
   };
   return (
-    <FlatList
-      data={item?.words}
-      horizontal
-      scrollEnabled={false}
-      keyExtractor={item => `${item?.id}`}
-      contentContainerStyle={{
+    <View
+      style={{
         flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
-        width: '100%',
-        justifyContent: isCentered ? 'center' : 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 15,
-      }}
-      renderItem={({item: innerItem}) => {
+        justifyContent: isCentered ? 'center' : 'space-between',
+        width: '95%',
+        alignSelf: 'center',
+      }}>
+      {item?.words?.map(innerItem => {
         // isVerseNumber: refers to ayah number form in mushaf
         const isVerseNumber = innerItem?.char_type_name == 'end';
         const isWordVerseSelected =
@@ -72,15 +68,17 @@ const VerseLinesWordsList = ({
               adjustsFontSizeToFit
               style={{
                 fontFamily: _fontFileFormatGenerator(innerItem?.page_number),
-                fontSize: isCentered ? 35 : getFontSize(20),
-                backgroundColor: isWordVerseSelected ? COLORS.light : 'white',
+                fontSize: isCentered ? 35 : getFontSize(23),
+                backgroundColor: isWordVerseSelected
+                  ? COLORS.light
+                  : 'transparent',
               }}>
               {innerItem?.code_v1}
             </Text>
           </TouchableOpacity>
         );
-      }}
-    />
+      })}
+    </View>
   );
 };
 

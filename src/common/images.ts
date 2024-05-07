@@ -4,6 +4,7 @@ const IMAGES = {
   pause: require('../assets/images/pause.png'),
   close: require('../assets/images/close.png'),
   arrowDown: require('../assets/images/down-chevron.png'),
+  mushafFrame: require('../assets/images/mushafFrame.png'),
 };
 
 export default IMAGES;

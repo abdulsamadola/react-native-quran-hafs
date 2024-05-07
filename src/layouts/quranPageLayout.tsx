@@ -1,17 +1,17 @@
 import {ReactNode, useEffect, useRef, useState} from 'react';
-import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
+import {Dimensions, FlatList, SafeAreaView, View} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
-import {IAudioPlayerRef, IPageVersesListRef, ISurahVerse} from '../@types';
+import {IAudioPlayerRef, ISurahVerse} from '../@types';
 import {AudioPlayer, Loader, PageVersesList} from '../components';
 import {useGetChapterByPage, useGetChapterLookup} from '../hooks';
 import useGetReciters from '../hooks/apis/useGetReciters';
-import {COLORS} from '../common';
 interface IProps {
   chapterId: number;
   type?: 'chapter';
   chapterHeader?: ReactNode;
   QURAN_FONTS_API: string;
 }
+const {width} = Dimensions.get('screen');
 
 const QuranPageLayout = ({
   chapterId = 1,
@@ -66,7 +66,8 @@ const QuranPageLayout = ({
           <FlatList
             data={chapterVerses}
             contentContainerStyle={{
-              flexGrow: 0,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
             pagingEnabled
             horizontal

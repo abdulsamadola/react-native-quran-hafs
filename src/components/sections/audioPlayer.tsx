@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     position: 'absolute',
-    bottom: 10,
+    bottom: 0,
   },
   row: {
     flexDirection: 'row',
