@@ -37,6 +37,7 @@ const useGetChapterByPage = ({
       );
 
       const page_number = response?.data?.verses[0]?.page_number;
+      const juz_number = response?.data?.verses[0]?.juz_number;
       downoladThePageFont(
         targetPageNumber as any,
         () => {
@@ -47,6 +48,8 @@ const useGetChapterByPage = ({
                 pageVerses: response?.data?.verses,
               }),
               page_number,
+              juz_number,
+              originalVerses: response?.data?.verses,
             },
           ]);
           if (isLoading) setIsLoading(false);

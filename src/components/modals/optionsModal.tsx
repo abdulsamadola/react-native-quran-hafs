@@ -72,7 +72,14 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
                 height: 50,
               } as any,
             ]}>
-            <TouchableOpacity onPress={onPlayerPress}>
+            <TouchableOpacity
+              onPress={() =>
+                onPlayerPress({
+                  reciterId: selectedReciter?.id as number,
+                  verse_key: selectedVerse?.verse_key,
+                  handlePlayPress,
+                })
+              }>
               {isVersePositionLoading ? (
                 <Loader />
               ) : (
@@ -81,6 +88,9 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
             </TouchableOpacity>
             <TouchableOpacity onPress={copyVerseToClipBoard}>
               <Image source={IMAGES.copyIcon} style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Image source={IMAGES.bookmark} style={styles.icon} />
             </TouchableOpacity>
           </View>
         </TouchableOpacity>

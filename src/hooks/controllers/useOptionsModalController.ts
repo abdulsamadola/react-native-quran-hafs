@@ -1,9 +1,9 @@
+import Clipboard from '@react-native-clipboard/clipboard';
 import {Dimensions} from 'react-native';
 import {IReciter, ISelectedVerseLocation, ISurahVerse} from '../../@types';
-import Clipboard from '@react-native-clipboard/clipboard';
 import {useGetChapterAudio} from '../apis';
 
-const OPTION_CONTAINER_WIDTH = 100;
+const OPTION_CONTAINER_WIDTH = 130;
 const OPTION_CONTAINER_HEIGHT = 50;
 const {width} = Dimensions.get('screen');
 interface IProps {
@@ -24,11 +24,22 @@ const useOptionsModalController = ({
 }: IProps) => {
   const {getVerseAudio, isVersePositionLoading} = useGetChapterAudio();
 
-  const onPlayerPress = () => {
+  const onPlayerPress = ({
+    reciterId,
+    handlePlayPress,
+    verse_key,
+    isBeforeOrAfterVerse,
+  }: {
+    reciterId: number;
+    verse_key: string;
+    handlePlayPress?: () => void;
+    isBeforeOrAfterVerse?: boolean;
+  }) => {
     getVerseAudio(
-      selectedReciter?.id as number,
-      selectedVerse?.verse_key,
+      reciterId as number,
+      verse_key,
       handlePlayPress,
+      isBeforeOrAfterVerse,
     );
   };
   const copyVerseToClipBoard = () => {

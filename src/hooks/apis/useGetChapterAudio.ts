@@ -10,10 +10,12 @@ const useGetChapterAudio = () => {
     reciterId: number,
     verseKey: string,
     callback?: () => void,
+    isBeforeOrAfterVerse?: boolean,
   ) => {
     // clear timeout created before
-    clearTimeout(timeoutAudio);
+    if (timeoutAudio) clearTimeout(timeoutAudio);
     try {
+      // if (isBeforeOrAfterVerse) await TrackPlayer.pause();
       setIsVersePositionLoading(true);
       const url = `${QURAN_API}/audio/reciters/${reciterId}/timestamp?verse_key=${verseKey}`;
       const response = await axiosInstance.get(url);

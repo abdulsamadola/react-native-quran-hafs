@@ -5,6 +5,9 @@ const IMAGES = {
   close: require('../assets/images/close.png'),
   arrowDown: require('../assets/images/down-chevron.png'),
   mushafFrame: require('../assets/images/mushafFrame.png'),
+  surahNameFrame: require('../assets/images/surahNameFrame.png'),
+  bookmark: require('../assets/images/bookmark.png'),
+  playNext: require('../assets/images/playNext.png'),
 };
 
 export default IMAGES;

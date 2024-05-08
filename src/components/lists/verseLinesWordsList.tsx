@@ -61,6 +61,7 @@ const VerseLinesWordsList = ({
         return (
           <TouchableOpacity
             activeOpacity={1}
+            key={`${innerItem?.id}`}
             onPress={event => {
               verseWordSelected(event, innerItem);
             }}>

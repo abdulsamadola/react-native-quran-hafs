@@ -2,8 +2,7 @@ import React, {MutableRefObject, useRef, useState} from 'react';
 import {
   Dimensions,
   FlatList,
-  ImageBackground,
-  PixelRatio,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,36 +12,43 @@ import {
   IAudioPlayerRef,
   ILineNumber,
   IModalRef,
+  IPageVersesList,
+  IQuranChapters,
   ISelectedVerseLocation,
   ISurahVerse,
+  IVersesBeforeAndAfterCurrentVerse,
 } from '../../@types';
+import {
+  COLORS,
+  FONT_FAMILY,
+  IMAGES,
+  QuranChapters,
+  SURAH_WORD_AR,
+  basmalah,
+} from '../../common';
 import {OptionsModal} from '../modals';
 import VerseLinesWordsList from './verseLinesWordsList';
-import {COLORS, IMAGES} from '../../common';
-interface IProps {
-  setSelectedVerse: (value: ISurahVerse) => void;
-  selectedVerse: ISurahVerse;
-  verseToDisplay: ILineNumber[] | undefined;
-  audioPlayerRef: MutableRefObject<IAudioPlayerRef | undefined>;
-  onContainerPress: () => void;
-}
+import handleVersesBeforeAndAfterCurrentVerse from '../../utils/handleBeforeAndAfterCurrentVerse';
 const {width, height} = Dimensions.get('screen');
 
-const PageVersesList = (props: IProps) => {
+const PageVersesList = (props: IPageVersesList) => {
   const {
     verseToDisplay,
     audioPlayerRef,
     selectedVerse,
     setSelectedVerse,
     onContainerPress,
+    chapterId,
+    showChapterName,
+    showBismllah,
+    pageNumber,
+    juzNumber,
+    setVersesBeforeAndAfterCurrentVerse,
+    originalVerse,
   } = props;
   const optionsModalRef = useRef<IModalRef>();
   const [selectedVerseLocation, setSelectedVerseLocation] =
     useState<ISelectedVerseLocation>();
-  const [viewLayout, setViewLayout] = useState<{
-    height: number;
-    width: number;
-  }>();
 
   const onVersePress = (location: ISelectedVerseLocation) => {
     optionsModalRef?.current?.openModal();
@@ -54,24 +60,53 @@ const PageVersesList = (props: IProps) => {
   const handlePlayPress = () => {
     closeOptionsModal();
     audioPlayerRef?.current?.setShowPlayerHandler(true);
+    handleVersesBeforeAndAfterCurrentVerse({
+      selectedVerse,
+      setVersesBeforeAndAfterCurrentVerse,
+      originalVerse,
+    });
   };
-  const pageNumber = verseToDisplay && verseToDisplay[0]?.page_number;
+
+  const getChapterCodeV1 = (): number =>
+    QuranChapters.find((item: IQuranChapters) => item?.id === chapterId)
+      ?.code_v1 as number;
+  const _renderSuranhNameAndBismillah = () => {
+    return (
+      <React.Fragment>
+        {showChapterName && (
+          <View style={styles.surahNameContainer}>
+            <Image
+              source={IMAGES.surahNameFrame}
+              style={{width: '100%', height: 50}}
+            />
+            <View
+              style={{
+                position: 'absolute',
+              }}>
+              <Text style={{fontFamily: FONT_FAMILY.BISMLLAH, fontSize: 30}}>
+                {String.fromCharCode(getChapterCodeV1())} {SURAH_WORD_AR}
+              </Text>
+            </View>
+          </View>
+        )}
+        {showBismllah && (
+          <View style={{width: '90%', alignItems: 'center'}}>
+            <Text style={{fontFamily: FONT_FAMILY.BISMLLAH, fontSize: 25}}>
+              {basmalah}
+            </Text>
+          </View>
+        )}
+      </React.Fragment>
+    );
+  };
 
   return (
-    <ImageBackground source={IMAGES.mushafFrame} style={{height, width}}>
+    <View style={{height, width, backgroundColor: 'red'}}>
       <TouchableOpacity
-        style={{
-          flex: 1,
-          width: '100%',
-          alignItems: 'center',
-          paddingTop: height / 12,
-        }}
+        style={styles.containerBtn}
         activeOpacity={1}
-        onPress={onContainerPress}
-        onLayout={event => {
-          if (event?.nativeEvent.layout)
-            setViewLayout(event?.nativeEvent.layout);
-        }}>
+        onPress={onContainerPress}>
+        {_renderSuranhNameAndBismillah()}
         <FlatList
           data={verseToDisplay}
           scrollEnabled={false}
@@ -100,13 +135,29 @@ const PageVersesList = (props: IProps) => {
           handlePlayPress={handlePlayPress}
           selectedReciter={audioPlayerRef?.current?._renderSelelctedReciter()}
         />
+
         <View style={styles.pageNumberContainer}>
           <View style={styles.pageNumberView}>
-            <Text>{pageNumber}</Text>
+            <Text style={styles.txt}>{pageNumber}</Text>
+          </View>
+        </View>
+        <View style={styles.juzNumberContainer}>
+          <View style={styles.juzNumberCircle}>
+            <Text style={styles.txt}>الجزء {juzNumber}</Text>
           </View>
         </View>
       </TouchableOpacity>
-    </ImageBackground>
+      <Image
+        style={{
+          height: '100%',
+          width: '100%',
+          position: 'absolute',
+          zIndex: -2,
+          alignSelf: 'center',
+        }}
+        source={IMAGES.mushafFrame}
+      />
+    </View>
   );
 };
 export default PageVersesList;
@@ -128,5 +179,31 @@ const styles = StyleSheet.create({
     height: 10,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  surahNameContainer: {
+    width: '90%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginVertical: 20,
+  },
+  juzNumberContainer: {
+    position: 'absolute',
+    width: '100%',
+    top: height / 20,
+    left: 5,
+  },
+  juzNumberCircle: {
+    alignSelf: 'flex-start',
+    backgroundColor: COLORS.light,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+  },
+  txt: {fontFamily: FONT_FAMILY.CAIRO, fontSize: 15},
+  containerBtn: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    paddingTop: height / 12,
   },
 });

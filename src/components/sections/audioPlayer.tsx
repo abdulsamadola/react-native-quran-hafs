@@ -1,4 +1,3 @@
-import Slider from '@react-native-community/slider';
 import {forwardRef, useEffect, useImperativeHandle, useState} from 'react';
 import {
   Dimensions,
@@ -9,8 +8,12 @@ import {
   View,
 } from 'react-native';
 import TrackPlayer, {useProgress} from 'react-native-track-player';
-import {IReciter, ISurahVerse} from '../../@types';
-import {COLORS, IMAGES} from '../../common';
+import {
+  IReciter,
+  ISurahVerse,
+  IVersesBeforeAndAfterCurrentVerse,
+} from '../../@types';
+import {IMAGES} from '../../common';
 import {useAudioPlayerController} from '../../hooks';
 import {RecitersModal} from '../modals';
 import AudioPlayerControls from './audioPlayerControls';
@@ -19,10 +22,23 @@ interface IProps {
   setSelectedVerse: (verse: ISurahVerse) => void;
   chapterId: number;
   selectedVerse: ISurahVerse;
+  versesBeforeAndAfterCurrentVerse: IVersesBeforeAndAfterCurrentVerse;
+  setVersesBeforeAndAfterCurrentVerse: (
+    value: IVersesBeforeAndAfterCurrentVerse,
+  ) => void;
+  originalVerse: ISurahVerse[];
 }
 const {height} = Dimensions.get('screen');
 const AudioPlayer = (props: IProps, ref: any) => {
-  const {allReciter, setSelectedVerse, chapterId, selectedVerse} = props;
+  const {
+    allReciter,
+    setSelectedVerse,
+    chapterId,
+    selectedVerse,
+    versesBeforeAndAfterCurrentVerse,
+    setVersesBeforeAndAfterCurrentVerse,
+    originalVerse,
+  } = props;
   const [selectedReciter, setSelectedReciter] = useState<IReciter>();
   const {duration, position} = useProgress();
   const {
@@ -62,7 +78,7 @@ const AudioPlayer = (props: IProps, ref: any) => {
             <Image source={IMAGES.close} style={styles.closeIcon} />
           </TouchableOpacity>
         </View>
-        <Slider
+        {/* <Slider
           minimumValue={0}
           maximumValue={duration}
           value={position}
@@ -70,7 +86,7 @@ const AudioPlayer = (props: IProps, ref: any) => {
           maximumTrackTintColor={COLORS.light}
           thumbTintColor={COLORS.lighBlack}
           onSlidingComplete={changeHandler}
-        />
+        /> */}
         <View style={styles.row}>
           <View style={{flex: 2}}>
             <Text>
@@ -81,13 +97,23 @@ const AudioPlayer = (props: IProps, ref: any) => {
             <AudioPlayerControls
               onPlayPause={onPlayPause}
               renderplayPauseBtn={renderplayPauseBtn}
+              versesBeforeAndAfterCurrentVerse={
+                versesBeforeAndAfterCurrentVerse
+              }
+              setVersesBeforeAndAfterCurrentVerse={
+                setVersesBeforeAndAfterCurrentVerse
+              }
+              selectedReciter={selectedReciter as IReciter}
+              setSelectedVerse={setSelectedVerse}
+              selectedVerse={selectedVerse}
+              originalVerse={originalVerse}
             />
           </View>
 
           <TouchableOpacity
             onPress={openReciterModal}
             style={styles.recitersBtn}>
-            <Text numberOfLines={2}>{selectedReciter?.name}</Text>
+            <Text numberOfLines={1}>{selectedReciter?.name}</Text>
             <Image source={IMAGES.arrowDown} style={styles.closeIcon} />
           </TouchableOpacity>
         </View>
@@ -108,10 +134,12 @@ export default forwardRef(AudioPlayer);
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: '90%',
     backgroundColor: 'white',
     position: 'absolute',
-    bottom: 0,
+    bottom: 10,
+    borderRadius: 10,
+    padding: 10,
   },
   row: {
     flexDirection: 'row',
@@ -127,9 +155,10 @@ const styles = StyleSheet.create({
   },
   closeContainer: {
     width: '100%',
-    alignItems: 'flex-end',
-    paddingHorizontal: 20,
-    marginTop: 10,
+    alignItems: 'flex-start',
+    position: 'absolute',
+    top: -20,
+    left: 0,
   },
   closeIcon: {width: 25, height: 25},
   recitersBtn: {

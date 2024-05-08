@@ -1,7 +1,12 @@
 import {ReactNode, useEffect, useRef, useState} from 'react';
 import {Dimensions, FlatList, SafeAreaView, View} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
-import {IAudioPlayerRef, ISurahVerse} from '../@types';
+import {
+  IAudioPlayerRef,
+  IChapterVerses,
+  ISurahVerse,
+  IVersesBeforeAndAfterCurrentVerse,
+} from '../@types';
 import {AudioPlayer, Loader, PageVersesList} from '../components';
 import {useGetChapterByPage, useGetChapterLookup} from '../hooks';
 import useGetReciters from '../hooks/apis/useGetReciters';
@@ -33,6 +38,12 @@ const QuranPageLayout = ({
   const audioPlayerRef = useRef<IAudioPlayerRef>();
   const [selectedVerse, setSelectedVerse] = useState<ISurahVerse>(
     {} as ISurahVerse,
+  );
+  const [
+    versesBeforeAndAfterCurrentVerse,
+    setVersesBeforeAndAfterCurrentVerse,
+  ] = useState<IVersesBeforeAndAfterCurrentVerse>(
+    {} as IVersesBeforeAndAfterCurrentVerse,
   );
   const onContainerPress = () => {
     audioPlayerRef?.current?.setShowPlayerHandler(
@@ -73,13 +84,22 @@ const QuranPageLayout = ({
             horizontal
             onEndReached={onEndReached}
             showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => (
+            renderItem={({item, index}) => (
               <PageVersesList
                 verseToDisplay={item?.verses}
                 audioPlayerRef={audioPlayerRef}
                 selectedVerse={selectedVerse}
                 setSelectedVerse={setSelectedVerse}
+                setVersesBeforeAndAfterCurrentVerse={
+                  setVersesBeforeAndAfterCurrentVerse
+                }
                 onContainerPress={onContainerPress}
+                chapterId={chapterId}
+                showChapterName={index === 0}
+                showBismllah={chapterId !== 9 && index === 0}
+                pageNumber={item?.page_number}
+                juzNumber={item?.juz_number}
+                originalVerse={item?.originalVerses}
               />
             )}
           />
@@ -90,6 +110,16 @@ const QuranPageLayout = ({
           setSelectedVerse={setSelectedVerse}
           selectedVerse={selectedVerse}
           allReciter={allReciters}
+          versesBeforeAndAfterCurrentVerse={versesBeforeAndAfterCurrentVerse}
+          setVersesBeforeAndAfterCurrentVerse={
+            setVersesBeforeAndAfterCurrentVerse
+          }
+          originalVerse={
+            chapterVerses?.find(
+              (item: IChapterVerses) =>
+                item?.page_number === selectedVerse?.page_number,
+            )?.originalVerses as ISurahVerse[]
+          }
         />
       </View>
     </SafeAreaView>

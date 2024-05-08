@@ -1,3 +1,5 @@
+import {MutableRefObject} from 'react';
+
 export interface IChapterLookUp {
   page_number: string;
   page_range: {
@@ -61,6 +63,8 @@ export interface ILineNumber {
 export interface IChapterVerses {
   verses: ILineNumber[] | undefined;
   page_number: number;
+  juz_number: number;
+  originalVerses: ISurahVerse[];
 }
 
 export interface ISelectedVerseLocation {
@@ -108,4 +112,26 @@ export interface IOptionsModal {
 
 export interface IPageVersesListRef {
   setSelectedVerseHandler: (verse: ISurahVerse) => void | undefined;
+}
+
+export interface IVersesBeforeAndAfterCurrentVerse {
+  beforeCurrentVerse: ISurahVerse | null;
+  afterCurrentVerse: ISurahVerse | null;
+}
+
+export interface IPageVersesList {
+  setSelectedVerse: (value: ISurahVerse) => void;
+  selectedVerse: ISurahVerse;
+  verseToDisplay: ILineNumber[] | undefined;
+  audioPlayerRef: MutableRefObject<IAudioPlayerRef | undefined>;
+  onContainerPress: () => void;
+  chapterId: number;
+  showChapterName: boolean;
+  showBismllah: boolean;
+  pageNumber: number;
+  juzNumber: number;
+  setVersesBeforeAndAfterCurrentVerse: (
+    value: IVersesBeforeAndAfterCurrentVerse,
+  ) => void;
+  originalVerse: ISurahVerse[];
 }
