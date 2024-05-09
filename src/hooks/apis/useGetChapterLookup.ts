@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {QURAN_API} from '../../common';
+import {IChapterLookUp} from '../../@types';
 import {axiosInstance} from '../../utils';
 
 interface IProps {

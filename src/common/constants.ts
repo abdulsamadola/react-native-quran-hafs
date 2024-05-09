@@ -1,3 +1,5 @@
+import RNFS from 'react-native-fs';
+
 export const QURAN_API = 'https://api.quran.com/api/qdc';
 export const DEFAULT_VERSES_PARAMS = {
   words: true,
@@ -17,3 +19,5 @@ export enum FONT_FAMILY {
   BISMLLAH = 'QCF_BSML',
   CAIRO = 'Cairo',
 }
+
+export const QURAN_CHAPTERS_DIRECTORY = `${RNFS.DocumentDirectoryPath}/QuranChapters`;

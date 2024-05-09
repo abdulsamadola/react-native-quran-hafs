@@ -1,9 +1,14 @@
 import {useEffect, useState} from 'react';
-import {IChapterLookUp, IChapterVerses} from '../../@types';
-import {DEFAULT_VERSES_PARAMS} from '../../common';
-import {axiosInstance} from '../../utils';
+import {IChapterLookUp, IChapterVerses, ISurahVerse} from '../../@types';
+import {DEFAULT_VERSES_PARAMS, QURAN_CHAPTERS_DIRECTORY} from '../../common';
+import {
+  axiosInstance,
+  handleQuranChaptersDirectory,
+  isFileExists,
+  readFromLocalStorageFile,
+  saveChapterAsJsonFile,
+} from '../../utils';
 import {usePageFontFileController, usePageLineController} from '../controllers';
-
 interface IProps {
   chapterLookUp: IChapterLookUp[] | undefined;
   chapterId: number;
@@ -24,39 +29,73 @@ const useGetChapterByPage = ({
   const {_renderVersesNewForm} = usePageLineController();
 
   useEffect(() => {
-    if (chapterLookUp?.length && chapterLookUp) getTargetChapterPage();
-  }, [chapterLookUp, activePage]);
+    if (chapterLookUp?.length && chapterLookUp)
+      checkIfTheChapterFileExistsInLocalStorage();
+  }, [chapterLookUp]);
+
+  const checkIfTheChapterFileExistsInLocalStorage = async () => {
+    const chapterFileName = `${chapterId}.json`;
+    const chapterPath = `${QURAN_CHAPTERS_DIRECTORY}/${chapterFileName}`;
+    const isFileExistsLocaly = await isFileExists(chapterPath);
+    await handleQuranChaptersDirectory();
+    let chapterToBeDisplayed: IChapterVerses[] = [];
+    if (!isFileExistsLocaly) {
+      const res: IChapterVerses[] | undefined = await getTargetChapterPage();
+      if (res) chapterToBeDisplayed = res;
+      await saveChapterAsJsonFile(chapterFileName, JSON.stringify(res));
+      handleFontLoad(setChapterVerse([...chapterToBeDisplayed]));
+    } else {
+      const storedChapterFile = await readFromLocalStorageFile(chapterFileName);
+      if (storedChapterFile)
+        chapterToBeDisplayed = JSON.parse(storedChapterFile);
+      handleFontLoad(setChapterVerse([...chapterToBeDisplayed]));
+    }
+  };
+  const handleFontLoad = async (callback: () => void) => {
+    if (!chapterLookUp) return;
+    const promises = chapterLookUp?.map((item: IChapterLookUp) =>
+      downoladThePageFont(Number(item?.page_number), () => {}, QURAN_FONTS_API),
+    );
+    try {
+      const promiseRes = await Promise.all(promises);
+      console.log(promiseRes);
+      setIsLoading(false);
+      callback();
+    } catch (e) {}
+  };
 
   const getTargetChapterPage = async () => {
     const params = _rednerQueryParams();
     try {
-      const targetPageNumber =
-        chapterLookUp && chapterLookUp[activePage]?.page_number;
       const response = await axiosInstance.get(
         `/verses/by_${type}/${chapterId}?${params}`,
       );
-
-      const page_number = response?.data?.verses[0]?.page_number;
-      const juz_number = response?.data?.verses[0]?.juz_number;
-      downoladThePageFont(
-        targetPageNumber as any,
-        () => {
-          setChapterVerse([
-            ...chapterVerses,
-            {
-              verses: _renderVersesNewForm({
-                pageVerses: response?.data?.verses,
-              }),
-              page_number,
-              juz_number,
-              originalVerses: response?.data?.verses,
-            },
-          ]);
-          if (isLoading) setIsLoading(false);
-        },
-        QURAN_FONTS_API,
-      );
+      const allChapterVerses: ISurahVerse[] = response?.data?.verses;
+      return await handleAllChapterPagesFormat(allChapterVerses);
     } catch (e) {}
+  };
+  const handleAllChapterPagesFormat = async (
+    allChapterVerses: ISurahVerse[],
+  ) => {
+    const chapterPagesWithVersesToSave = [];
+    if (chapterLookUp)
+      for (let i = 0; i < chapterLookUp.length; i++) {
+        const currentPage: any = chapterLookUp[i]?.page_number;
+        const currentPageVerses = allChapterVerses?.filter(
+          item => item?.page_number == currentPage,
+        );
+        const currentPageJuzNumber = currentPageVerses[0]?.juz_number;
+        chapterPagesWithVersesToSave.push({
+          verses: _renderVersesNewForm({
+            pageVerses: currentPageVerses,
+          }),
+          page_number: currentPage,
+          juz_number: currentPageJuzNumber,
+          originalVerses: currentPageVerses,
+        });
+      }
+
+    return chapterPagesWithVersesToSave;
   };
   const onEndReached = () => {
     // if (pagination?.current_page < pagination?.total_pages)
@@ -65,11 +104,14 @@ const useGetChapterByPage = ({
 
   const _rednerQueryParams = () => {
     if (chapterLookUp) {
-      const activePageData = chapterLookUp[activePage];
+      const firstChapterVerse = chapterLookUp[0]?.page_range?.from;
+      const lastChapterVerse =
+        chapterLookUp[chapterLookUp?.length - 1]?.page_range?.to;
+
       const queryParams = {
         ...DEFAULT_VERSES_PARAMS,
-        from: activePageData?.page_range?.from,
-        to: activePageData?.page_range?.to,
+        from: firstChapterVerse,
+        to: lastChapterVerse,
       };
       const queryString = Object.entries(queryParams)
         .map(

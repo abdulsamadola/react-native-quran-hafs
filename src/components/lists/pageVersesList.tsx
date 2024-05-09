@@ -1,4 +1,4 @@
-import React, {MutableRefObject, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Dimensions,
   FlatList,
@@ -9,14 +9,10 @@ import {
   View,
 } from 'react-native';
 import {
-  IAudioPlayerRef,
-  ILineNumber,
   IModalRef,
   IPageVersesList,
   IQuranChapters,
   ISelectedVerseLocation,
-  ISurahVerse,
-  IVersesBeforeAndAfterCurrentVerse,
 } from '../../@types';
 import {
   COLORS,
@@ -26,9 +22,10 @@ import {
   SURAH_WORD_AR,
   basmalah,
 } from '../../common';
+import {horizontalScale, hp, verticalScale} from '../../utils';
+import handleVersesBeforeAndAfterCurrentVerse from '../../utils/handleBeforeAndAfterCurrentVerse';
 import {OptionsModal} from '../modals';
 import VerseLinesWordsList from './verseLinesWordsList';
-import handleVersesBeforeAndAfterCurrentVerse from '../../utils/handleBeforeAndAfterCurrentVerse';
 const {width, height} = Dimensions.get('screen');
 
 const PageVersesList = (props: IPageVersesList) => {
@@ -66,7 +63,6 @@ const PageVersesList = (props: IPageVersesList) => {
       originalVerse,
     });
   };
-
   const getChapterCodeV1 = (): number =>
     QuranChapters.find((item: IQuranChapters) => item?.id === chapterId)
       ?.code_v1 as number;
@@ -90,7 +86,12 @@ const PageVersesList = (props: IPageVersesList) => {
           </View>
         )}
         {showBismllah && (
-          <View style={{width: '90%', alignItems: 'center'}}>
+          <View
+            style={{
+              width: '90%',
+              alignItems: 'center',
+              marginBottom: verticalScale(10),
+            }}>
             <Text style={{fontFamily: FONT_FAMILY.BISMLLAH, fontSize: 25}}>
               {basmalah}
             </Text>
@@ -110,10 +111,10 @@ const PageVersesList = (props: IPageVersesList) => {
         <FlatList
           data={verseToDisplay}
           scrollEnabled={false}
-          contentContainerStyle={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          // contentContainerStyle={{
+          //   justifyContent: 'center',
+          //   alignItems: 'center',
+          // }}
           pagingEnabled
           onEndReachedThreshold={1}
           keyExtractor={item => `${item?.lineNumber}`}
@@ -147,16 +148,7 @@ const PageVersesList = (props: IPageVersesList) => {
           </View>
         </View>
       </TouchableOpacity>
-      <Image
-        style={{
-          height: '100%',
-          width: '100%',
-          position: 'absolute',
-          zIndex: -2,
-          alignSelf: 'center',
-        }}
-        source={IMAGES.mushafFrame}
-      />
+      <Image style={styles.mushafFrameImage} source={IMAGES.mushafFrame} />
     </View>
   );
 };
@@ -173,7 +165,7 @@ const styles = StyleSheet.create({
   },
   pageNumberContainer: {
     position: 'absolute',
-    bottom: height * 0.07,
+    bottom: verticalScale(55),
     right: 0,
     width: '100%',
     height: 10,
@@ -185,13 +177,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginVertical: 20,
+    marginVertical: hp('2%'),
   },
   juzNumberContainer: {
     position: 'absolute',
     width: '100%',
-    top: height / 20,
-    left: 5,
+    top: hp(4.5),
+    left: horizontalScale(5),
   },
   juzNumberCircle: {
     alignSelf: 'flex-start',
@@ -204,6 +196,13 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     alignItems: 'center',
-    paddingTop: height / 12,
+    paddingTop: hp('8%'),
+  },
+  mushafFrameImage: {
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+    zIndex: -2,
+    alignSelf: 'center',
   },
 });

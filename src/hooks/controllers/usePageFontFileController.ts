@@ -1,13 +1,6 @@
 import RNFS from 'react-native-fs';
 import {loadFont} from 'react-native-dynamic-fonts';
-
-const isFileExists = (filePath: string) => {
-  return RNFS.exists(filePath)
-    .then(exists => exists)
-    .catch(error => {
-      console.log(error);
-    });
-};
+import {isFileExists} from '../../utils';
 
 const _renderPageNumber = (pageNumber: number) => {
   let pageNumberFormat = '';
@@ -40,10 +33,10 @@ export const downoladThePageFont = async (
   const url = `${quranFontApi}${targetFont}.TTF`;
   const filePath = _filePathFormatGenerator(targetFont);
   const ifFileSavedBefore = await isFileExists(filePath);
-
-  if (ifFileSavedBefore) loadFontFamily(filePath, targetFont, onFontLoaded);
-  else
-    RNFS.downloadFile({
+  if (ifFileSavedBefore) {
+    loadFontFamily(filePath, targetFont, onFontLoaded);
+  } else
+    return RNFS.downloadFile({
       fromUrl: url,
       toFile: filePath,
       background: true, // Enable downloading in the background (iOS only)
@@ -54,11 +47,13 @@ export const downoladThePageFont = async (
       },
     })
       .promise.then(res => {
-        console.log('res', JSON.stringify(res));
+        console.log('res' + `${targetFont}`, JSON.stringify(res));
         loadFontFamily(filePath, targetFont, onFontLoaded);
+        return res;
       })
       .catch(err => {
         console.log('Download error:', err);
+        return err;
       });
 };
 const loadFontFamily = async (

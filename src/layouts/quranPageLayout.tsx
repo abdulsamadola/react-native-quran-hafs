@@ -10,11 +10,13 @@ import {
 import {AudioPlayer, Loader, PageVersesList} from '../components';
 import {useGetChapterByPage, useGetChapterLookup} from '../hooks';
 import useGetReciters from '../hooks/apis/useGetReciters';
+import {handleQuranChaptersDirectory} from '../utils';
 interface IProps {
   chapterId: number;
   type?: 'chapter';
   chapterHeader?: ReactNode;
   QURAN_FONTS_API: string;
+  showSlider?: boolean;
 }
 const {width} = Dimensions.get('screen');
 
@@ -23,6 +25,7 @@ const QuranPageLayout = ({
   type = 'chapter',
   chapterHeader,
   QURAN_FONTS_API,
+  showSlider,
 }: IProps) => {
   const {chapterLookUp} = useGetChapterLookup({
     chapterId,
@@ -120,6 +123,7 @@ const QuranPageLayout = ({
                 item?.page_number === selectedVerse?.page_number,
             )?.originalVerses as ISurahVerse[]
           }
+          showSlider={showSlider}
         />
       </View>
     </SafeAreaView>

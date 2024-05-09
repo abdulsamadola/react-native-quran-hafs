@@ -13,10 +13,11 @@ import {
   ISurahVerse,
   IVersesBeforeAndAfterCurrentVerse,
 } from '../../@types';
-import {IMAGES} from '../../common';
+import {COLORS, IMAGES} from '../../common';
 import {useAudioPlayerController} from '../../hooks';
 import {RecitersModal} from '../modals';
 import AudioPlayerControls from './audioPlayerControls';
+import Slider from '@react-native-community/slider';
 interface IProps {
   allReciter: IReciter[];
   setSelectedVerse: (verse: ISurahVerse) => void;
@@ -27,6 +28,7 @@ interface IProps {
     value: IVersesBeforeAndAfterCurrentVerse,
   ) => void;
   originalVerse: ISurahVerse[];
+  showSlider?: boolean;
 }
 const {height} = Dimensions.get('screen');
 const AudioPlayer = (props: IProps, ref: any) => {
@@ -38,6 +40,7 @@ const AudioPlayer = (props: IProps, ref: any) => {
     versesBeforeAndAfterCurrentVerse,
     setVersesBeforeAndAfterCurrentVerse,
     originalVerse,
+    showSlider,
   } = props;
   const [selectedReciter, setSelectedReciter] = useState<IReciter>();
   const {duration, position} = useProgress();
@@ -74,21 +77,25 @@ const AudioPlayer = (props: IProps, ref: any) => {
     showPlayer && (
       <View style={styles.container}>
         <View style={styles.closeContainer}>
-          <TouchableOpacity onPress={closeAudioPlayer}>
+          <TouchableOpacity
+            onPress={closeAudioPlayer}
+            style={{backgroundColor: COLORS.white}}>
             <Image source={IMAGES.close} style={styles.closeIcon} />
           </TouchableOpacity>
         </View>
-        {/* <Slider
-          minimumValue={0}
-          maximumValue={duration}
-          value={position}
-          minimumTrackTintColor={COLORS.darkBlack}
-          maximumTrackTintColor={COLORS.light}
-          thumbTintColor={COLORS.lighBlack}
-          onSlidingComplete={changeHandler}
-        /> */}
+        {showSlider && (
+          <Slider
+            minimumValue={0}
+            maximumValue={duration}
+            value={position}
+            minimumTrackTintColor={COLORS.darkBlack}
+            maximumTrackTintColor={COLORS.light}
+            thumbTintColor={COLORS.lighBlack}
+            onSlidingComplete={changeHandler}
+          />
+        )}
         <View style={styles.row}>
-          <View style={{flex: 2}}>
+          <View style={{flex: 1}}>
             <Text>
               {formatTime(position)} / {formatTime(duration)}
             </Text>
@@ -162,7 +169,7 @@ const styles = StyleSheet.create({
   },
   closeIcon: {width: 25, height: 25},
   recitersBtn: {
-    flex: 2,
+    flex: 1,
     paddingHorizontal: 5,
     flexDirection: 'row',
     alignItems: 'center',

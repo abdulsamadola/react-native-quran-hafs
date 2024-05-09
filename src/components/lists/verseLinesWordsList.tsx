@@ -11,6 +11,7 @@ import {
 import {ISelectedVerseLocation, ISurahVerse, IVerseWord} from '../../@types';
 import {usePageFontFileController} from '../../hooks';
 import {COLORS} from '../../common';
+import {moderateScale} from '../../utils';
 const {width} = Dimensions.get('screen');
 interface IProps {
   item: ISurahVerse;
@@ -69,7 +70,7 @@ const VerseLinesWordsList = ({
               adjustsFontSizeToFit
               style={{
                 fontFamily: _fontFileFormatGenerator(innerItem?.page_number),
-                fontSize: isCentered ? 35 : getFontSize(23),
+                fontSize: isCentered ? 35 : moderateScale(19),
                 backgroundColor: isWordVerseSelected
                   ? COLORS.light
                   : 'transparent',
