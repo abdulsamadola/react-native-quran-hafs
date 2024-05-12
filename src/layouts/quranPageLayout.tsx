@@ -79,8 +79,14 @@ const QuranPageLayout = ({
     }
   }, [isLoading]);
   const scrollToPageIndex = () => {
+    const selectedBookMarkedVerseIndex = chapterVerses?.findIndex(
+      item => item?.page_number == selectedBookedMarkedVerse?.page_number,
+    );
     setTimeout(() => {
-      flatlistRef?.current?.scrollToIndex({index: 1, animated: true});
+      flatlistRef?.current?.scrollToIndex({
+        index: selectedBookMarkedVerseIndex,
+        animated: true,
+      });
     }, 1000);
   };
   return (
