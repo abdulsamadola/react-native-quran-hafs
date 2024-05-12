@@ -1,5 +1,5 @@
-import {ReactNode, useEffect, useRef, useState} from 'react';
-import {Dimensions, FlatList, SafeAreaView, View} from 'react-native';
+import {ReactNode, useEffect, useMemo, useRef, useState} from 'react';
+import {FlatList, SafeAreaView, View} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {
   IAudioPlayerRef,
@@ -8,29 +8,37 @@ import {
   IVersesBeforeAndAfterCurrentVerse,
 } from '../@types';
 import {AudioPlayer, Loader, PageVersesList} from '../components';
-import {useGetChapterByPage, useGetChapterLookup} from '../hooks';
+import {
+  useGetChapterAudio,
+  useGetChapterByPage,
+  useGetChapterLookup,
+} from '../hooks';
 import useGetReciters from '../hooks/apis/useGetReciters';
+import handleVersesBeforeAndAfterCurrentVerse from '../utils/handleBeforeAndAfterCurrentVerse';
 interface IProps {
   chapterId: number;
   type?: 'chapter';
   chapterHeader?: ReactNode;
   QURAN_FONTS_API: string;
   showSlider?: boolean;
+  selectedBookedMarkedVerse?: ISurahVerse;
+  onBookMarkedVerse: (verse: ISurahVerse) => void;
 }
-const {width} = Dimensions.get('screen');
-
 const QuranPageLayout = ({
   chapterId = 1,
   type = 'chapter',
   chapterHeader,
   QURAN_FONTS_API,
   showSlider,
+  selectedBookedMarkedVerse,
+  onBookMarkedVerse,
 }: IProps) => {
+  const flatlistRef = useRef<any>();
   const {chapterLookUp} = useGetChapterLookup({
     chapterId,
     type,
   });
-  const {chapterVerses, onEndReached, isLoading} = useGetChapterByPage({
+  const {chapterVerses, isLoading} = useGetChapterByPage({
     chapterLookUp,
     chapterId,
     type,
@@ -52,10 +60,29 @@ const QuranPageLayout = ({
       !audioPlayerRef?.current?.isPlayerShown(),
     );
   };
+  const originalVerse = useMemo(
+    () =>
+      chapterVerses?.find(
+        (item: IChapterVerses) =>
+          item?.page_number == selectedVerse?.page_number,
+      )?.originalVerses as ISurahVerse[],
+    [selectedVerse],
+  );
 
   useEffect(() => {
     TrackPlayer.setupPlayer();
   }, []);
+  useEffect(() => {
+    if (!isLoading && selectedBookedMarkedVerse) {
+      setSelectedVerse(selectedBookedMarkedVerse);
+      scrollToPageIndex();
+    }
+  }, [isLoading]);
+  const scrollToPageIndex = () => {
+    setTimeout(() => {
+      flatlistRef?.current?.scrollToIndex({index: 1, animated: true});
+    }, 1000);
+  };
   return (
     <SafeAreaView
       style={{
@@ -77,6 +104,7 @@ const QuranPageLayout = ({
           <Loader />
         ) : (
           <FlatList
+            ref={flatlistRef}
             data={chapterVerses}
             contentContainerStyle={{
               alignItems: 'center',
@@ -84,7 +112,6 @@ const QuranPageLayout = ({
             }}
             pagingEnabled
             horizontal
-            onEndReached={onEndReached}
             showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
               <PageVersesList
@@ -102,8 +129,19 @@ const QuranPageLayout = ({
                 pageNumber={item?.page_number}
                 juzNumber={item?.juz_number}
                 originalVerse={item?.originalVerses}
+                onBookMarkedVerse={onBookMarkedVerse}
               />
             )}
+            onScrollToIndexFailed={info => {
+              // to handle if there is a failure when scrollToIndex
+              const wait = new Promise(resolve => setTimeout(resolve, 500));
+              wait.then(() => {
+                flatlistRef.current?.scrollToIndex({
+                  index: info.index,
+                  animated: true,
+                });
+              });
+            }}
           />
         )}
         <AudioPlayer
@@ -116,12 +154,7 @@ const QuranPageLayout = ({
           setVersesBeforeAndAfterCurrentVerse={
             setVersesBeforeAndAfterCurrentVerse
           }
-          originalVerse={
-            chapterVerses?.find(
-              (item: IChapterVerses) =>
-                item?.page_number === selectedVerse?.page_number,
-            )?.originalVerses as ISurahVerse[]
-          }
+          originalVerse={originalVerse}
           showSlider={showSlider}
         />
       </View>

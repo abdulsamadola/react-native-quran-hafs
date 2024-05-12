@@ -22,7 +22,6 @@ const useGetChapterByPage = ({
   QURAN_FONTS_API,
 }: IProps) => {
   const [chapterVerses, setChapterVerse] = useState<IChapterVerses[]>([]);
-  const [activePage, setActivePage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   const {downoladThePageFont} = usePageFontFileController();
@@ -61,8 +60,9 @@ const useGetChapterByPage = ({
     );
     try {
       const promiseRes = await Promise.all(promises);
-      setIsLoading(false);
-      console.log('finish');
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 200);
     } catch (e) {}
   };
 
@@ -73,7 +73,6 @@ const useGetChapterByPage = ({
         `/verses/by_${type}/${chapterId}?${params}`,
       );
       const allChapterVerses: ISurahVerse[] = response?.data?.verses;
-      console.log(JSON.stringify(allChapterVerses));
       return await handleAllChapterPagesFormat(allChapterVerses);
     } catch (e) {}
   };
@@ -100,11 +99,6 @@ const useGetChapterByPage = ({
 
     return chapterPagesWithVersesToSave;
   };
-  const onEndReached = () => {
-    // if (pagination?.current_page < pagination?.total_pages)
-    setActivePage(activePage + 1);
-  };
-
   const _rednerQueryParams = () => {
     if (chapterLookUp) {
       const firstChapterVerse = chapterLookUp[0]?.page_range?.from;
@@ -125,7 +119,7 @@ const useGetChapterByPage = ({
       return queryString;
     } else return '';
   };
-  return {chapterVerses, onEndReached, isLoading};
+  return {chapterVerses, isLoading};
 };
 
 export default useGetChapterByPage;

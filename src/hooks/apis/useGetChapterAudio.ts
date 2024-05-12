@@ -10,7 +10,6 @@ const useGetChapterAudio = () => {
     reciterId: number,
     verseKey: string,
     callback?: () => void,
-    isBeforeOrAfterVerse?: boolean,
   ) => {
     // clear timeout created before
     if (timeoutAudio) clearTimeout(timeoutAudio);

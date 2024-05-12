@@ -79,7 +79,7 @@ const AudioPlayer = (props: IProps, ref: any) => {
         <View style={styles.closeContainer}>
           <TouchableOpacity
             onPress={closeAudioPlayer}
-            style={{backgroundColor: COLORS.white}}>
+            style={[{backgroundColor: COLORS.white, borderRadius: 10}]}>
             <Image source={IMAGES.close} style={styles.closeIcon} />
           </TouchableOpacity>
         </View>

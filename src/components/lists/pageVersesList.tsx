@@ -42,6 +42,7 @@ const PageVersesList = (props: IPageVersesList) => {
     juzNumber,
     setVersesBeforeAndAfterCurrentVerse,
     originalVerse,
+    onBookMarkedVerse,
   } = props;
   const optionsModalRef = useRef<IModalRef>();
   const [selectedVerseLocation, setSelectedVerseLocation] =
@@ -130,6 +131,7 @@ const PageVersesList = (props: IPageVersesList) => {
           seSelectedVerse={setSelectedVerse}
           handlePlayPress={handlePlayPress}
           selectedReciter={audioPlayerRef?.current?._renderSelelctedReciter()}
+          onBookMarkedVerse={onBookMarkedVerse}
         />
 
         <View style={styles.pageNumberContainer}>

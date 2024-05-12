@@ -108,6 +108,7 @@ export interface IOptionsModal {
   seSelectedVerse: (verse: ISurahVerse) => void;
   handlePlayPress: () => void;
   selectedReciter: IReciter | undefined;
+  onBookMarkedVerse: (verse: ISurahVerse) => void;
 }
 
 export interface IPageVersesListRef {
@@ -134,4 +135,5 @@ export interface IPageVersesList {
     value: IVersesBeforeAndAfterCurrentVerse,
   ) => void;
   originalVerse: ISurahVerse[];
+  onBookMarkedVerse: (verse: ISurahVerse) => void;
 }

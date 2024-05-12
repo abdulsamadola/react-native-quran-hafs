@@ -20,6 +20,7 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
     seSelectedVerse,
     handlePlayPress,
     selectedReciter,
+    onBookMarkedVerse,
   } = props;
   const [isVisible, setIsVisible] = useState(false);
 
@@ -89,7 +90,7 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
             <TouchableOpacity onPress={copyVerseToClipBoard}>
               <Image source={IMAGES.copyIcon} style={styles.icon} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => onBookMarkedVerse(selectedVerse)}>
               <Image source={IMAGES.bookmark} style={styles.icon} />
             </TouchableOpacity>
           </View>
