@@ -48,8 +48,7 @@ export const downoladThePageFont = async (
     })
       .promise.then(res => {
         console.log('res' + `${targetFont}`, JSON.stringify(res));
-        loadFontFamily(filePath, targetFont, onFontLoaded);
-        return res;
+        return loadFontFamily(filePath, targetFont, onFontLoaded);
       })
       .catch(err => {
         console.log('Download error:', err);
@@ -65,6 +64,7 @@ const loadFontFamily = async (
   return loadFont(targetFont, base64, 'ttf').then((name: string) => {
     console.log('Loaded font successfully. Font name is: ', name);
     onFontLoaded();
+    return name;
   });
 };
 

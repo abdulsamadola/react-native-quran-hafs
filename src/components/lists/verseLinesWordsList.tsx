@@ -1,6 +1,5 @@
 import {
   Dimensions,
-  FlatList,
   GestureResponderEvent,
   I18nManager,
   PixelRatio,
@@ -8,11 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {RFValue} from 'react-native-responsive-fontsize';
 import {ISelectedVerseLocation, ISurahVerse, IVerseWord} from '../../@types';
-import {usePageFontFileController} from '../../hooks';
 import {COLORS} from '../../common';
-import {moderateScale} from '../../utils';
-const {width} = Dimensions.get('screen');
+import {usePageFontFileController} from '../../hooks';
 interface IProps {
   item: ISurahVerse;
   isCentered: boolean;
@@ -20,10 +18,6 @@ interface IProps {
   seSelectedVerse: (value: ISurahVerse) => void;
   setSelectedVerseLocation: (value: ISelectedVerseLocation) => void;
 }
-const getFontSize = (size: number) => {
-  const fontScale = PixelRatio.getFontScale();
-  return size / fontScale;
-};
 const VerseLinesWordsList = ({
   item,
   isCentered,
@@ -48,9 +42,9 @@ const VerseLinesWordsList = ({
     <View
       style={{
         flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
-        alignItems: 'center',
         justifyContent: isCentered ? 'center' : 'space-between',
-        width: '95%',
+        alignItems: 'center',
+        width: '90%',
         alignSelf: 'center',
       }}>
       {item?.words?.map(innerItem => {
@@ -70,7 +64,7 @@ const VerseLinesWordsList = ({
               adjustsFontSizeToFit
               style={{
                 fontFamily: _fontFileFormatGenerator(innerItem?.page_number),
-                fontSize: isCentered ? 35 : moderateScale(19),
+                fontSize: isCentered ? 35 : RFValue(18),
                 backgroundColor: isWordVerseSelected
                   ? COLORS.light
                   : 'transparent',

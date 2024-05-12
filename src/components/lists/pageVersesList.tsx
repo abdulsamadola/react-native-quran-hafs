@@ -30,7 +30,7 @@ const {width, height} = Dimensions.get('screen');
 
 const PageVersesList = (props: IPageVersesList) => {
   const {
-    verseToDisplay,
+    pageVersesToDisplay,
     audioPlayerRef,
     selectedVerse,
     setSelectedVerse,
@@ -66,6 +66,7 @@ const PageVersesList = (props: IPageVersesList) => {
   const getChapterCodeV1 = (): number =>
     QuranChapters.find((item: IQuranChapters) => item?.id === chapterId)
       ?.code_v1 as number;
+  const pageLinesCount = pageVersesToDisplay?.length;
   const _renderSuranhNameAndBismillah = () => {
     return (
       <React.Fragment>
@@ -102,32 +103,26 @@ const PageVersesList = (props: IPageVersesList) => {
   };
 
   return (
-    <View style={{height, width, backgroundColor: 'red'}}>
+    <View style={{height, width}}>
       <TouchableOpacity
         style={styles.containerBtn}
         activeOpacity={1}
         onPress={onContainerPress}>
         {_renderSuranhNameAndBismillah()}
-        <FlatList
-          data={verseToDisplay}
-          scrollEnabled={false}
-          // contentContainerStyle={{
-          //   justifyContent: 'center',
-          //   alignItems: 'center',
-          // }}
-          pagingEnabled
-          onEndReachedThreshold={1}
-          keyExtractor={item => `${item?.lineNumber}`}
-          renderItem={({item}) => (
+        {pageVersesToDisplay?.map(item => (
+          <View
+            style={{flex: pageLinesCount && pageLinesCount >= 10 ? 1 : 0}}
+            key={`${item?.lineNumber}`}>
             <VerseLinesWordsList
+              key={`${item?.lineNumber}`}
               isCentered={item?.page_number === 1 || item?.page_number === 2}
               item={item as any}
               selectedVerse={selectedVerse}
               seSelectedVerse={setSelectedVerse}
               setSelectedVerseLocation={onVersePress}
             />
-          )}
-        />
+          </View>
+        ))}
         <OptionsModal
           ref={optionsModalRef}
           selectedVerseLocation={selectedVerseLocation}
@@ -197,6 +192,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     paddingTop: hp('8%'),
+    paddingBottom: hp('10%'),
   },
   mushafFrameImage: {
     height: '100%',

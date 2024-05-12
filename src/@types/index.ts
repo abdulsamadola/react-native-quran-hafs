@@ -122,7 +122,7 @@ export interface IVersesBeforeAndAfterCurrentVerse {
 export interface IPageVersesList {
   setSelectedVerse: (value: ISurahVerse) => void;
   selectedVerse: ISurahVerse;
-  verseToDisplay: ILineNumber[] | undefined;
+  pageVersesToDisplay: ILineNumber[] | undefined;
   audioPlayerRef: MutableRefObject<IAudioPlayerRef | undefined>;
   onContainerPress: () => void;
   chapterId: number;

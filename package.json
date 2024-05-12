@@ -19,6 +19,7 @@
     "react-native-dynamic-fonts": "^0.3.2",
     "react-native-fs": "^2.20.0",
     "react-native-quran-hafs": "^1.0.3",
+    "react-native-responsive-fontsize": "^0.5.1",
     "react-native-track-player": "^4.1.1"
   },
   "devDependencies": {

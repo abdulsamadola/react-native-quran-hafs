@@ -10,7 +10,6 @@ import {
 import {AudioPlayer, Loader, PageVersesList} from '../components';
 import {useGetChapterByPage, useGetChapterLookup} from '../hooks';
 import useGetReciters from '../hooks/apis/useGetReciters';
-import {handleQuranChaptersDirectory} from '../utils';
 interface IProps {
   chapterId: number;
   type?: 'chapter';
@@ -89,7 +88,7 @@ const QuranPageLayout = ({
             showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
               <PageVersesList
-                verseToDisplay={item?.verses}
+                pageVersesToDisplay={item?.verses}
                 audioPlayerRef={audioPlayerRef}
                 selectedVerse={selectedVerse}
                 setSelectedVerse={setSelectedVerse}

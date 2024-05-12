@@ -32,35 +32,37 @@ const useGetChapterByPage = ({
     if (chapterLookUp?.length && chapterLookUp)
       checkIfTheChapterFileExistsInLocalStorage();
   }, [chapterLookUp]);
+  const setChapetersHandler = (chapters: IChapterVerses[]) => {
+    setChapterVerse([...chapters]);
+  };
 
   const checkIfTheChapterFileExistsInLocalStorage = async () => {
     const chapterFileName = `${chapterId}.json`;
     const chapterPath = `${QURAN_CHAPTERS_DIRECTORY}/${chapterFileName}`;
     const isFileExistsLocaly = await isFileExists(chapterPath);
     await handleQuranChaptersDirectory();
-    let chapterToBeDisplayed: IChapterVerses[] = [];
     if (!isFileExistsLocaly) {
       const res: IChapterVerses[] | undefined = await getTargetChapterPage();
-      if (res) chapterToBeDisplayed = res;
+      console.log(JSON.stringify(res));
       await saveChapterAsJsonFile(chapterFileName, JSON.stringify(res));
-      handleFontLoad(setChapterVerse([...chapterToBeDisplayed]));
+      await handleFontLoad();
+      if (res) setChapetersHandler([...res]);
     } else {
       const storedChapterFile = await readFromLocalStorageFile(chapterFileName);
+      await handleFontLoad();
       if (storedChapterFile)
-        chapterToBeDisplayed = JSON.parse(storedChapterFile);
-      handleFontLoad(setChapterVerse([...chapterToBeDisplayed]));
+        setChapetersHandler([...JSON.parse(storedChapterFile)]);
     }
   };
-  const handleFontLoad = async (callback: () => void) => {
+  const handleFontLoad = async () => {
     if (!chapterLookUp) return;
     const promises = chapterLookUp?.map((item: IChapterLookUp) =>
       downoladThePageFont(Number(item?.page_number), () => {}, QURAN_FONTS_API),
     );
     try {
       const promiseRes = await Promise.all(promises);
-      console.log(promiseRes);
       setIsLoading(false);
-      callback();
+      console.log('finish');
     } catch (e) {}
   };
 
@@ -71,6 +73,7 @@ const useGetChapterByPage = ({
         `/verses/by_${type}/${chapterId}?${params}`,
       );
       const allChapterVerses: ISurahVerse[] = response?.data?.verses;
+      console.log(JSON.stringify(allChapterVerses));
       return await handleAllChapterPagesFormat(allChapterVerses);
     } catch (e) {}
   };
