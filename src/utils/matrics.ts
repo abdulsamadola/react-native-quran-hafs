@@ -21,6 +21,17 @@ const heightPercentageToDP = (heightPercent: number | string) => {
   // size (dp) to the nearest one that correspons to an integer number of pixels.
   return PixelRatio.roundToNearestPixel((height * elemHeight) / 100);
 };
-const hp = (value: number | string) => heightPercentageToDP(value);
 
-export {horizontalScale, verticalScale, moderateScale, hp};
+const widthPercentageToDP = (widthPercent: number | string) => {
+  // Parse string percentage input and convert it to number.
+  const elemWidth =
+    typeof widthPercent === 'number' ? widthPercent : parseFloat(widthPercent);
+
+  // Use PixelRatio.roundToNearestPixel method in order to round the layout
+  // size (dp) to the nearest one that correspons to an integer number of pixels.
+  return PixelRatio.roundToNearestPixel((width * elemWidth) / 100);
+};
+const hp = (value: number | string) => heightPercentageToDP(value);
+const wp = (value: number | string) => widthPercentageToDP(value);
+
+export {horizontalScale, verticalScale, moderateScale, hp, wp};

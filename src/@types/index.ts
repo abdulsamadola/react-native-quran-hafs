@@ -1,5 +1,10 @@
 import {MutableRefObject, ReactNode} from 'react';
-import {ImageSourcePropType} from 'react-native';
+import {
+  ImageResizeMode,
+  ImageSourcePropType,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 
 export interface IChapterLookUp {
   page_number: string;
@@ -140,6 +145,8 @@ export interface IPageVersesList {
   backgroundImage: ImageSourcePropType;
   surahNameFrameImage: ImageSourcePropType;
   showChapterHeader?: boolean;
+  quranPageContainerStyle?: StyleProp<ViewStyle>;
+  resizeImageBackgroundMode?: ImageResizeMode;
 }
 
 export interface IQuranPageLayout {
@@ -153,4 +160,5 @@ export interface IQuranPageLayout {
   backgroundImage: ImageSourcePropType;
   surahNameFrameImage: ImageSourcePropType;
   showChapterHeader?: boolean;
+  resizeImageBackgroundMode?: ImageResizeMode;
 }

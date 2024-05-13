@@ -18,7 +18,7 @@ import {
 } from '../../utils';
 import {OptionsModal} from '../modals';
 import VerseLinesWordsList from './verseLinesWordsList';
-const {width, height} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('window');
 
 const PageVersesList = (props: IPageVersesList) => {
   const {
@@ -36,6 +36,8 @@ const PageVersesList = (props: IPageVersesList) => {
     backgroundImage,
     chapterId,
     showChapterHeader,
+    quranPageContainerStyle,
+    resizeImageBackgroundMode,
   } = props;
   const optionsModalRef = useRef<IModalRef>();
   const [selectedVerseLocation, setSelectedVerseLocation] =
@@ -60,17 +62,11 @@ const PageVersesList = (props: IPageVersesList) => {
   const pageLinesCount = pageVersesToDisplay?.length;
 
   return (
-    <View
-      style={{
-        height,
-        width,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: COLORS.white,
-      }}>
+    <View style={styles.containerView}>
       <ImageBackground
         source={backgroundImage}
-        style={{height: '98%', width: '100%'}}>
+        style={[{height: '100%', width: '100%'}, quranPageContainerStyle]}
+        resizeMode={resizeImageBackgroundMode ?? 'cover'}>
         <TouchableOpacity
           style={styles.containerBtn}
           activeOpacity={1}
@@ -117,7 +113,6 @@ const PageVersesList = (props: IPageVersesList) => {
             </View>
           </View>
         </TouchableOpacity>
-        {/* <Image style={styles.mushafFrameImage} source={IMAGES.mushafFrame} /> */}
       </ImageBackground>
     </View>
   );
@@ -125,6 +120,13 @@ const PageVersesList = (props: IPageVersesList) => {
 export default PageVersesList;
 
 const styles = StyleSheet.create({
+  containerView: {
+    height,
+    width,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.white,
+  },
   pageNumberView: {
     width: 40,
     height: 40,

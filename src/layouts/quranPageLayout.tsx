@@ -1,5 +1,5 @@
-import {ReactNode, useEffect, useMemo, useRef, useState} from 'react';
-import {FlatList, ImageSourcePropType, SafeAreaView, View} from 'react-native';
+import {useEffect, useMemo, useRef, useState} from 'react';
+import {FlatList, SafeAreaView, View} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {
   IAudioPlayerRef,
@@ -22,6 +22,7 @@ const QuranPageLayout = ({
   backgroundImage,
   surahNameFrameImage,
   showChapterHeader,
+  resizeImageBackgroundMode,
 }: IQuranPageLayout) => {
   const flatlistRef = useRef<any>();
   const {chapterLookUp} = useGetChapterLookup({
@@ -120,6 +121,7 @@ const QuranPageLayout = ({
                 onBookMarkedVerse={onBookMarkedVerse}
                 backgroundImage={backgroundImage}
                 surahNameFrameImage={surahNameFrameImage}
+                resizeImageBackgroundMode={resizeImageBackgroundMode}
               />
             )}
             onScrollToIndexFailed={info => {
