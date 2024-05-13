@@ -1,8 +1,6 @@
 import {
-  Dimensions,
   GestureResponderEvent,
   I18nManager,
-  PixelRatio,
   Text,
   TouchableOpacity,
   View,
@@ -64,7 +62,7 @@ const VerseLinesWordsList = ({
               adjustsFontSizeToFit
               style={{
                 fontFamily: _fontFileFormatGenerator(innerItem?.page_number),
-                fontSize: isCentered ? 35 : RFValue(18),
+                fontSize: isCentered ? 35 : RFValue(16),
                 backgroundColor: isWordVerseSelected
                   ? COLORS.light
                   : 'transparent',

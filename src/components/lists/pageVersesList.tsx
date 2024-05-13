@@ -1,29 +1,21 @@
 import React, {useRef, useState} from 'react';
 import {
   Dimensions,
-  Image,
   ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {IModalRef, IPageVersesList, ISelectedVerseLocation} from '../../@types';
+import {COLORS, FONT_FAMILY, IMAGES} from '../../common';
+import {BismillahText, QuranPageHeader} from '../../layouts';
 import {
-  IModalRef,
-  IPageVersesList,
-  IQuranChapters,
-  ISelectedVerseLocation,
-} from '../../@types';
-import {
-  COLORS,
-  FONT_FAMILY,
-  IMAGES,
-  QuranChapters,
-  SURAH_WORD_AR,
-  basmalah,
-} from '../../common';
-import {horizontalScale, hp, verticalScale} from '../../utils';
-import handleVersesBeforeAndAfterCurrentVerse from '../../utils/handleBeforeAndAfterCurrentVerse';
+  handleVersesBeforeAndAfterCurrentVerse,
+  horizontalScale,
+  hp,
+  verticalScale,
+} from '../../utils';
 import {OptionsModal} from '../modals';
 import VerseLinesWordsList from './verseLinesWordsList';
 const {width, height} = Dimensions.get('screen');
@@ -35,8 +27,6 @@ const PageVersesList = (props: IPageVersesList) => {
     selectedVerse,
     setSelectedVerse,
     onContainerPress,
-    chapterId,
-    showChapterName,
     showBismllah,
     pageNumber,
     juzNumber,
@@ -44,7 +34,8 @@ const PageVersesList = (props: IPageVersesList) => {
     originalVerse,
     onBookMarkedVerse,
     backgroundImage,
-    surahNameFrameImage,
+    chapterId,
+    showChapterHeader,
   } = props;
   const optionsModalRef = useRef<IModalRef>();
   const [selectedVerseLocation, setSelectedVerseLocation] =
@@ -66,89 +57,69 @@ const PageVersesList = (props: IPageVersesList) => {
       originalVerse,
     });
   };
-  const getChapterCodeV1 = (): number =>
-    QuranChapters.find((item: IQuranChapters) => item?.id === chapterId)
-      ?.code_v1 as number;
   const pageLinesCount = pageVersesToDisplay?.length;
-  const _renderSuranhNameAndBismillah = () => {
-    return (
-      <React.Fragment>
-        {showChapterName && (
-          <View style={styles.surahNameContainer}>
-            <Image
-              source={surahNameFrameImage}
-              style={{width: '100%', height: 50}}
-            />
-            <View
-              style={{
-                position: 'absolute',
-              }}>
-              <Text style={{fontFamily: FONT_FAMILY.BISMLLAH, fontSize: 30}}>
-                {String.fromCharCode(getChapterCodeV1())} {SURAH_WORD_AR}
-              </Text>
-            </View>
-          </View>
-        )}
-        {showBismllah && (
-          <View
-            style={{
-              width: '90%',
-              alignItems: 'center',
-              marginBottom: verticalScale(10),
-            }}>
-            <Text style={{fontFamily: FONT_FAMILY.BISMLLAH, fontSize: 25}}>
-              {basmalah}
-            </Text>
-          </View>
-        )}
-      </React.Fragment>
-    );
-  };
 
   return (
-    <ImageBackground source={backgroundImage} style={{height, width}}>
-      <TouchableOpacity
-        style={styles.containerBtn}
-        activeOpacity={1}
-        onPress={onContainerPress}>
-        {_renderSuranhNameAndBismillah()}
-        {pageVersesToDisplay?.map(item => (
-          <View
-            style={{flex: pageLinesCount && pageLinesCount >= 10 ? 1 : 0}}
-            key={`${item?.lineNumber}`}>
-            <VerseLinesWordsList
-              key={`${item?.lineNumber}`}
-              isCentered={item?.page_number === 1 || item?.page_number === 2}
-              item={item as any}
-              selectedVerse={selectedVerse}
-              seSelectedVerse={setSelectedVerse}
-              setSelectedVerseLocation={onVersePress}
+    <View
+      style={{
+        height,
+        width,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: COLORS.white,
+      }}>
+      <ImageBackground
+        source={backgroundImage}
+        style={{height: '98%', width: '100%'}}>
+        <TouchableOpacity
+          style={styles.containerBtn}
+          activeOpacity={1}
+          onPress={onContainerPress}>
+          {showChapterHeader && (
+            <QuranPageHeader
+              chapterId={chapterId}
+              surahNameFrameImage={IMAGES.surahNameFrame}
             />
-          </View>
-        ))}
-        <OptionsModal
-          ref={optionsModalRef}
-          selectedVerseLocation={selectedVerseLocation}
-          selectedVerse={selectedVerse}
-          seSelectedVerse={setSelectedVerse}
-          handlePlayPress={handlePlayPress}
-          selectedReciter={audioPlayerRef?.current?._renderSelelctedReciter()}
-          onBookMarkedVerse={onBookMarkedVerse}
-        />
+          )}
+          {showBismllah && <BismillahText />}
+          {pageVersesToDisplay?.map(item => (
+            <View
+              style={{flex: pageLinesCount && pageLinesCount >= 10 ? 1 : 0}}
+              key={`${item?.lineNumber}`}>
+              <VerseLinesWordsList
+                key={`${item?.lineNumber}`}
+                isCentered={item?.page_number === 1 || item?.page_number === 2}
+                item={item as any}
+                selectedVerse={selectedVerse}
+                seSelectedVerse={setSelectedVerse}
+                setSelectedVerseLocation={onVersePress}
+              />
+            </View>
+          ))}
+          <OptionsModal
+            ref={optionsModalRef}
+            selectedVerseLocation={selectedVerseLocation}
+            selectedVerse={selectedVerse}
+            seSelectedVerse={setSelectedVerse}
+            handlePlayPress={handlePlayPress}
+            selectedReciter={audioPlayerRef?.current?._renderSelelctedReciter()}
+            onBookMarkedVerse={onBookMarkedVerse}
+          />
 
-        <View style={styles.pageNumberContainer}>
-          <View style={styles.pageNumberView}>
-            <Text style={styles.txt}>{pageNumber}</Text>
+          <View style={styles.pageNumberContainer}>
+            <View style={styles.pageNumberView}>
+              <Text style={styles.txt}>{pageNumber}</Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.juzNumberContainer}>
-          <View style={styles.juzNumberCircle}>
-            <Text style={styles.txt}>الجزء {juzNumber}</Text>
+          <View style={styles.juzNumberContainer}>
+            <View style={styles.juzNumberCircle}>
+              <Text style={styles.txt}>الجزء {juzNumber}</Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-      {/* <Image style={styles.mushafFrameImage} source={IMAGES.mushafFrame} /> */}
-    </ImageBackground>
+        </TouchableOpacity>
+        {/* <Image style={styles.mushafFrameImage} source={IMAGES.mushafFrame} /> */}
+      </ImageBackground>
+    </View>
   );
 };
 export default PageVersesList;

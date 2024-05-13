@@ -4,39 +4,25 @@ import TrackPlayer from 'react-native-track-player';
 import {
   IAudioPlayerRef,
   IChapterVerses,
+  IQuranPageLayout,
   ISurahVerse,
   IVersesBeforeAndAfterCurrentVerse,
 } from '../@types';
 import {AudioPlayer, Loader, PageVersesList} from '../components';
-import {
-  useGetChapterAudio,
-  useGetChapterByPage,
-  useGetChapterLookup,
-} from '../hooks';
+import {useGetChapterByPage, useGetChapterLookup} from '../hooks';
 import useGetReciters from '../hooks/apis/useGetReciters';
-import handleVersesBeforeAndAfterCurrentVerse from '../utils/handleBeforeAndAfterCurrentVerse';
-interface IProps {
-  chapterId: number;
-  type?: 'chapter';
-  chapterHeader?: ReactNode;
-  QURAN_FONTS_API: string;
-  showSlider?: boolean;
-  selectedBookedMarkedVerse?: ISurahVerse;
-  onBookMarkedVerse: (verse: ISurahVerse) => void;
-  backgroundImage: ImageSourcePropType;
-  surahNameFrameImage: ImageSourcePropType;
-}
+
 const QuranPageLayout = ({
   chapterId = 1,
   type = 'chapter',
-  chapterHeader,
   QURAN_FONTS_API,
   showSlider,
   selectedBookedMarkedVerse,
   onBookMarkedVerse,
   backgroundImage,
   surahNameFrameImage,
-}: IProps) => {
+  showChapterHeader,
+}: IQuranPageLayout) => {
   const flatlistRef = useRef<any>();
   const {chapterLookUp} = useGetChapterLookup({
     chapterId,
@@ -100,15 +86,6 @@ const QuranPageLayout = ({
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      <View
-        style={{
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        {chapterHeader}
-      </View>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         {isLoading ? (
           <Loader />
@@ -125,6 +102,7 @@ const QuranPageLayout = ({
             showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
               <PageVersesList
+                showChapterHeader={showChapterHeader}
                 pageVersesToDisplay={item?.verses}
                 audioPlayerRef={audioPlayerRef}
                 selectedVerse={selectedVerse}

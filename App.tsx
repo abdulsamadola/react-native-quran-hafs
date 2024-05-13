@@ -7,6 +7,7 @@ const App = () => {
       QURAN_FONTS_API="https://meccamuqra-public-mixed.b-cdn.net/meccamuqra/fonts/"
       backgroundImage={IMAGES.mushafFrame}
       surahNameFrameImage={IMAGES.surahNameFrame}
+      // showChapterHeader
       // selectedBookedMarkedVerse={{
       //   chapter_id: 65,
       //   id: 5226,

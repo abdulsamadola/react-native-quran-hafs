@@ -1,4 +1,4 @@
-import {MutableRefObject} from 'react';
+import {MutableRefObject, ReactNode} from 'react';
 import {ImageSourcePropType} from 'react-native';
 
 export interface IChapterLookUp {
@@ -139,4 +139,18 @@ export interface IPageVersesList {
   onBookMarkedVerse: (verse: ISurahVerse) => void;
   backgroundImage: ImageSourcePropType;
   surahNameFrameImage: ImageSourcePropType;
+  showChapterHeader?: boolean;
+}
+
+export interface IQuranPageLayout {
+  chapterId: number;
+  type?: 'chapter';
+  chapterHeader?: ReactNode;
+  QURAN_FONTS_API: string;
+  showSlider?: boolean;
+  selectedBookedMarkedVerse?: ISurahVerse;
+  onBookMarkedVerse: (verse: ISurahVerse) => void;
+  backgroundImage: ImageSourcePropType;
+  surahNameFrameImage: ImageSourcePropType;
+  showChapterHeader?: boolean;
 }
