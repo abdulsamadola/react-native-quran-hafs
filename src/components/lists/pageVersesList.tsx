@@ -1,8 +1,8 @@
 import React, {useRef, useState} from 'react';
 import {
   Dimensions,
-  FlatList,
   Image,
+  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -43,6 +43,8 @@ const PageVersesList = (props: IPageVersesList) => {
     setVersesBeforeAndAfterCurrentVerse,
     originalVerse,
     onBookMarkedVerse,
+    backgroundImage,
+    surahNameFrameImage,
   } = props;
   const optionsModalRef = useRef<IModalRef>();
   const [selectedVerseLocation, setSelectedVerseLocation] =
@@ -74,7 +76,7 @@ const PageVersesList = (props: IPageVersesList) => {
         {showChapterName && (
           <View style={styles.surahNameContainer}>
             <Image
-              source={IMAGES.surahNameFrame}
+              source={surahNameFrameImage}
               style={{width: '100%', height: 50}}
             />
             <View
@@ -104,7 +106,7 @@ const PageVersesList = (props: IPageVersesList) => {
   };
 
   return (
-    <View style={{height, width}}>
+    <ImageBackground source={backgroundImage} style={{height, width}}>
       <TouchableOpacity
         style={styles.containerBtn}
         activeOpacity={1}
@@ -145,8 +147,8 @@ const PageVersesList = (props: IPageVersesList) => {
           </View>
         </View>
       </TouchableOpacity>
-      <Image style={styles.mushafFrameImage} source={IMAGES.mushafFrame} />
-    </View>
+      {/* <Image style={styles.mushafFrameImage} source={IMAGES.mushafFrame} /> */}
+    </ImageBackground>
   );
 };
 export default PageVersesList;

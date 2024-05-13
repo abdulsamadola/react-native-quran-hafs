@@ -1,4 +1,5 @@
 import {MutableRefObject} from 'react';
+import {ImageSourcePropType} from 'react-native';
 
 export interface IChapterLookUp {
   page_number: string;
@@ -136,4 +137,6 @@ export interface IPageVersesList {
   ) => void;
   originalVerse: ISurahVerse[];
   onBookMarkedVerse: (verse: ISurahVerse) => void;
+  backgroundImage: ImageSourcePropType;
+  surahNameFrameImage: ImageSourcePropType;
 }
