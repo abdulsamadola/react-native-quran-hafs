@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {IChapterLookUp} from '../../@types';
+import {IChapterLookUp} from '../../types';
 import {axiosInstance} from '../../utils';
 
 interface IProps {

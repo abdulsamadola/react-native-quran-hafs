@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {IOptionsModal} from '../../@types';
+import {IOptionsModal} from '../../types';
 import {COLORS} from '../../common';
 import IMAGES from '../../common/images';
 import {useOptionsModalController} from '../../hooks';

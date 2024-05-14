@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {QURAN_API} from '../../common';
 import {axiosInstance} from '../../utils';
-import {IReciter} from '../../@types';
+import {IReciter} from '../../types';
 import useGetChapterAudio from './useGetChapterAudio';
 import {I18nManager} from 'react-native';
 

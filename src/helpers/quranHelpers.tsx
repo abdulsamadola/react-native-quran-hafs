@@ -1,4 +1,4 @@
-import {IQuranChapters} from '../@types';
+import {IQuranChapters} from '../types';
 import {QuranChapters, SURAH_WORD_AR} from '../common';
 
 export const getChapterCodeV1 = (chapterId: number): number =>

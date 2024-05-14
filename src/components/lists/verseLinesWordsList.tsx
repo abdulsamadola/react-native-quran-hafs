@@ -6,9 +6,10 @@ import {
   View,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
-import {ISelectedVerseLocation, ISurahVerse, IVerseWord} from '../../@types';
+import {ISelectedVerseLocation, ISurahVerse, IVerseWord} from '../../types';
 import {COLORS} from '../../common';
 import {usePageFontFileController} from '../../hooks';
+import {getChapterCodeV1} from '../../helpers';
 interface IProps {
   item: ISurahVerse;
   isCentered: boolean;
@@ -30,7 +31,8 @@ const VerseLinesWordsList = ({
     item: IVerseWord,
   ) => {
     const {pageY, pageX} = event.nativeEvent;
-    seSelectedVerse(item?.verseData);
+    const chapterCodeV1 = getChapterCodeV1(item?.verseData?.chapter_id);
+    seSelectedVerse({...item?.verseData, chapter_code_v1: chapterCodeV1});
     setSelectedVerseLocation({
       itemLocationY: pageY,
       itemLocationX: pageX,
@@ -42,7 +44,7 @@ const VerseLinesWordsList = ({
         flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
         justifyContent: isCentered ? 'center' : 'space-between',
         alignItems: 'center',
-        width: '90%',
+        width: '85%',
         alignSelf: 'center',
       }}>
       {item?.words?.map(innerItem => {

@@ -1,6 +1,6 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import {Dimensions} from 'react-native';
-import {IReciter, ISelectedVerseLocation, ISurahVerse} from '../../@types';
+import {IReciter, ISelectedVerseLocation, ISurahVerse} from '../../types';
 import {useGetChapterAudio} from '../apis';
 
 const OPTION_CONTAINER_WIDTH = 130;

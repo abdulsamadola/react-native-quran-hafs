@@ -12,7 +12,7 @@ import {
   IReciter,
   ISurahVerse,
   IVersesBeforeAndAfterCurrentVerse,
-} from '../../@types';
+} from '../../types';
 import {COLORS, IMAGES} from '../../common';
 import {useAudioPlayerController} from '../../hooks';
 import {RecitersModal} from '../modals';

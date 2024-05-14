@@ -1,5 +1,5 @@
 import {useMemo} from 'react';
-import {ILineNumber, ISurahVerse, IVerseWord} from '../../@types';
+import {ILineNumber, ISurahVerse, IVerseWord} from '../../types';
 
 const loopOnEachWord = (
   verseWords: IVerseWord[],

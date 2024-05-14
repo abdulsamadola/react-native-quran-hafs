@@ -7,7 +7,7 @@ import {
   IQuranPageLayout,
   ISurahVerse,
   IVersesBeforeAndAfterCurrentVerse,
-} from '../@types';
+} from '../types';
 import {AudioPlayer, Loader, PageVersesList} from '../components';
 import {useGetChapterByPage, useGetChapterLookup} from '../hooks';
 import useGetReciters from '../hooks/apis/useGetReciters';
@@ -23,6 +23,7 @@ const QuranPageLayout = ({
   surahNameFrameImage,
   showChapterHeader,
   resizeImageBackgroundMode,
+  quranPageContainerStyle,
 }: IQuranPageLayout) => {
   const flatlistRef = useRef<any>();
   const {chapterLookUp} = useGetChapterLookup({
@@ -122,6 +123,7 @@ const QuranPageLayout = ({
                 backgroundImage={backgroundImage}
                 surahNameFrameImage={surahNameFrameImage}
                 resizeImageBackgroundMode={resizeImageBackgroundMode}
+                quranPageContainerStyle={quranPageContainerStyle}
               />
             )}
             onScrollToIndexFailed={info => {

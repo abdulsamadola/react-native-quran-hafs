@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {IChapterLookUp, IChapterVerses, ISurahVerse} from '../../@types';
+import {IChapterLookUp, IChapterVerses, ISurahVerse} from '../../types';
 import {DEFAULT_VERSES_PARAMS, QURAN_CHAPTERS_DIRECTORY} from '../../common';
 import {
   axiosInstance,

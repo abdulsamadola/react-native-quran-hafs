@@ -5,7 +5,7 @@ import {
   IReciter,
   ISurahVerse,
   IVersesBeforeAndAfterCurrentVerse,
-} from '../../@types';
+} from '../../types';
 import {useOptionsModalController} from '../../hooks';
 import handleVersesBeforeAndAfterCurrentVerse from '../../utils/handleBeforeAndAfterCurrentVerse';
 interface IProps {

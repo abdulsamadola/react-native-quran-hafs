@@ -1,4 +1,4 @@
-import {ISurahVerse, IVersesBeforeAndAfterCurrentVerse} from '../@types';
+import {ISurahVerse, IVersesBeforeAndAfterCurrentVerse} from '../types';
 
 interface IProps {
   originalVerse: ISurahVerse[];

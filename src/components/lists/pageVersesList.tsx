@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {IModalRef, IPageVersesList, ISelectedVerseLocation} from '../../@types';
+import {IModalRef, IPageVersesList, ISelectedVerseLocation} from '../../types';
 import {COLORS, FONT_FAMILY, IMAGES} from '../../common';
 import {BismillahText, QuranPageHeader} from '../../layouts';
 import {
@@ -18,7 +18,7 @@ import {
 } from '../../utils';
 import {OptionsModal} from '../modals';
 import VerseLinesWordsList from './verseLinesWordsList';
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const PageVersesList = (props: IPageVersesList) => {
   const {
@@ -121,7 +121,6 @@ export default PageVersesList;
 
 const styles = StyleSheet.create({
   containerView: {
-    height,
     width,
     alignItems: 'center',
     justifyContent: 'center',
@@ -137,7 +136,7 @@ const styles = StyleSheet.create({
   },
   pageNumberContainer: {
     position: 'absolute',
-    bottom: verticalScale(55),
+    bottom: verticalScale(10),
     right: 0,
     width: '100%',
     height: 10,
@@ -154,7 +153,7 @@ const styles = StyleSheet.create({
   juzNumberContainer: {
     position: 'absolute',
     width: '100%',
-    top: hp(4.5),
+    top: 0,
     left: horizontalScale(5),
   },
   juzNumberCircle: {
@@ -168,7 +167,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     alignItems: 'center',
-    paddingTop: hp('8%'),
+    paddingTop: hp('2%'),
     paddingBottom: hp('10%'),
   },
   mushafFrameImage: {

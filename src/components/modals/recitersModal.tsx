@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import {COLORS, IMAGES} from '../../common';
-import {IReciter, ISurahVerse} from '../../@types';
+import {IReciter, ISurahVerse} from '../../types';
 import {useGetChapterAudio} from '../../hooks';
 const {height} = Dimensions.get('screen');
 interface IProps {

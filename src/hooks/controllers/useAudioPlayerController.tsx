@@ -2,7 +2,7 @@ import {ActivityIndicator, Image, StyleSheet} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {IMAGES} from '../../common';
 import {usePlaybackState, State} from 'react-native-track-player';
-import {IModalRef} from '../../@types';
+import {IModalRef} from '../../types';
 import {useRef} from 'react';
 
 const useAudioPlayerController = () => {

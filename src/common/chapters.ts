@@ -1,4 +1,4 @@
-import {IQuranChapters} from '../@types';
+import {IQuranChapters} from '../types';
 
 const QuranChapters: IQuranChapters[] = [
   {

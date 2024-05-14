@@ -31,6 +31,7 @@ export interface ISurahVerse {
   page_number: number;
   juz_number: number;
   words: IVerseWord[];
+  chapter_code_v1: number;
 }
 
 export interface IVerseWord {
@@ -161,4 +162,5 @@ export interface IQuranPageLayout {
   surahNameFrameImage: ImageSourcePropType;
   showChapterHeader?: boolean;
   resizeImageBackgroundMode?: ImageResizeMode;
+  quranPageContainerStyle?: StyleProp<ViewStyle>;
 }
