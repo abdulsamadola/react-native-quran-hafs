@@ -42,7 +42,7 @@ const VerseLinesWordsList = ({
     <View
       style={{
         flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
-        justifyContent: isCentered ? 'center' : 'space-between',
+        justifyContent: isCentered ? undefined : 'space-between',
         alignItems: 'center',
         width: '85%',
         alignSelf: 'center',

@@ -15,9 +15,11 @@ import {
   horizontalScale,
   hp,
   verticalScale,
+  wp,
 } from '../../utils';
 import {OptionsModal} from '../modals';
 import VerseLinesWordsList from './verseLinesWordsList';
+import {_renderChapterName} from '../../helpers';
 const {width} = Dimensions.get('window');
 
 const PageVersesList = (props: IPageVersesList) => {
@@ -38,6 +40,7 @@ const PageVersesList = (props: IPageVersesList) => {
     showChapterHeader,
     quranPageContainerStyle,
     resizeImageBackgroundMode,
+    showChapterName,
   } = props;
   const optionsModalRef = useRef<IModalRef>();
   const [selectedVerseLocation, setSelectedVerseLocation] =
@@ -78,6 +81,7 @@ const PageVersesList = (props: IPageVersesList) => {
             />
           )}
           {showBismllah && <BismillahText />}
+          <View style={{marginTop: 20}} />
           {pageVersesToDisplay?.map(item => (
             <View
               style={{flex: pageLinesCount && pageLinesCount >= 10 ? 1 : 0}}
@@ -111,6 +115,13 @@ const PageVersesList = (props: IPageVersesList) => {
             <View style={styles.juzNumberCircle}>
               <Text style={styles.txt}>الجزء {juzNumber}</Text>
             </View>
+            {!showChapterName && (
+              <View style={styles.juzNumberCircle}>
+                <Text style={[styles.txt, {fontFamily: FONT_FAMILY.BISMLLAH}]}>
+                  {_renderChapterName(chapterId)}
+                </Text>
+              </View>
+            )}
           </View>
         </TouchableOpacity>
       </ImageBackground>
@@ -154,7 +165,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     top: 0,
-    left: horizontalScale(5),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 5,
   },
   juzNumberCircle: {
     alignSelf: 'flex-start',
@@ -168,7 +181,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     paddingTop: hp('2%'),
-    paddingBottom: hp('10%'),
+    paddingBottom: hp('5%'),
   },
   mushafFrameImage: {
     height: '100%',
