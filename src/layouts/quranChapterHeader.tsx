@@ -9,7 +9,11 @@ interface IProps {
 const QuranChapterHeader = ({chapterId, surahNameFrameImage}: IProps) => {
   return (
     <View style={styles.surahNameContainer}>
-      <Image source={surahNameFrameImage} style={styles.surahName} />
+      <Image
+        source={surahNameFrameImage}
+        style={styles.surahName}
+        resizeMode="contain"
+      />
       <View style={styles.row}>
         <Text style={styles.txt}>{_renderChapterName(chapterId)}</Text>
       </View>
@@ -25,6 +29,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
+    marginTop: 20,
   },
   surahName: {
     width: '100%',
@@ -35,6 +40,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   row: {
+    top: 1,
     position: 'absolute',
   },
   juzNumberContainer: {

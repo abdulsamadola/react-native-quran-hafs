@@ -24,6 +24,7 @@ const QuranPageLayout = ({
   showChapterHeader,
   resizeImageBackgroundMode,
   quranPageContainerStyle,
+  selectionColor,
 }: IQuranPageLayout) => {
   const flatlistRef = useRef<any>();
   const {chapterLookUp} = useGetChapterLookup({
@@ -124,6 +125,7 @@ const QuranPageLayout = ({
                 surahNameFrameImage={surahNameFrameImage}
                 resizeImageBackgroundMode={resizeImageBackgroundMode}
                 quranPageContainerStyle={quranPageContainerStyle}
+                selectionColor={selectionColor}
               />
             )}
             onScrollToIndexFailed={info => {

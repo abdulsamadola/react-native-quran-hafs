@@ -1,4 +1,5 @@
 import {
+  ColorValue,
   GestureResponderEvent,
   I18nManager,
   Text,
@@ -16,6 +17,8 @@ interface IProps {
   selectedVerse: ISurahVerse;
   seSelectedVerse: (value: ISurahVerse) => void;
   setSelectedVerseLocation: (value: ISelectedVerseLocation) => void;
+  selectionColor?: ColorValue;
+  pageNumber: number | undefined;
 }
 const VerseLinesWordsList = ({
   item,
@@ -23,6 +26,8 @@ const VerseLinesWordsList = ({
   seSelectedVerse,
   selectedVerse,
   setSelectedVerseLocation,
+  selectionColor,
+  pageNumber,
 }: IProps) => {
   const {_fontFileFormatGenerator} = usePageFontFileController();
 
@@ -32,7 +37,11 @@ const VerseLinesWordsList = ({
   ) => {
     const {pageY, pageX} = event.nativeEvent;
     const chapterCodeV1 = getChapterCodeV1(item?.verseData?.chapter_id);
-    seSelectedVerse({...item?.verseData, chapter_code_v1: chapterCodeV1});
+    seSelectedVerse({
+      ...item?.verseData,
+      chapter_code_v1: chapterCodeV1,
+      verse_font_famliy: pageNumber ? _fontFileFormatGenerator(pageNumber) : '',
+    });
     setSelectedVerseLocation({
       itemLocationY: pageY,
       itemLocationX: pageX,
@@ -66,7 +75,7 @@ const VerseLinesWordsList = ({
                 fontFamily: _fontFileFormatGenerator(innerItem?.page_number),
                 fontSize: isCentered ? 35 : RFValue(16),
                 backgroundColor: isWordVerseSelected
-                  ? COLORS.light
+                  ? selectionColor ?? COLORS.light
                   : 'transparent',
               }}>
               {innerItem?.code_v1}

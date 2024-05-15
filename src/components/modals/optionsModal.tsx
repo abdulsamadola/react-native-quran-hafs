@@ -90,7 +90,11 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
             <TouchableOpacity onPress={copyVerseToClipBoard}>
               <Image source={IMAGES.copyIcon} style={styles.icon} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => onBookMarkedVerse(selectedVerse)}>
+            <TouchableOpacity
+              onPress={() => {
+                onBookMarkedVerse(selectedVerse);
+                closeModal();
+              }}>
               <Image source={IMAGES.bookmark} style={styles.icon} />
             </TouchableOpacity>
           </View>

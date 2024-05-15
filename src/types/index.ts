@@ -1,5 +1,6 @@
 import {MutableRefObject, ReactNode} from 'react';
 import {
+  ColorValue,
   ImageResizeMode,
   ImageSourcePropType,
   StyleProp,
@@ -32,6 +33,7 @@ export interface ISurahVerse {
   juz_number: number;
   words: IVerseWord[];
   chapter_code_v1: number;
+  verse_font_famliy: string;
 }
 
 export interface IVerseWord {
@@ -148,6 +150,7 @@ export interface IPageVersesList {
   showChapterHeader?: boolean;
   quranPageContainerStyle?: StyleProp<ViewStyle>;
   resizeImageBackgroundMode?: ImageResizeMode;
+  selectionColor?: ColorValue;
 }
 
 export interface IQuranPageLayout {
@@ -163,4 +166,5 @@ export interface IQuranPageLayout {
   showChapterHeader?: boolean;
   resizeImageBackgroundMode?: ImageResizeMode;
   quranPageContainerStyle?: StyleProp<ViewStyle>;
+  selectionColor?: ColorValue;
 }

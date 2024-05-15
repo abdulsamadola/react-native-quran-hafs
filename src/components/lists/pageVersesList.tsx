@@ -41,6 +41,7 @@ const PageVersesList = (props: IPageVersesList) => {
     quranPageContainerStyle,
     resizeImageBackgroundMode,
     showChapterName,
+    selectionColor,
   } = props;
   const optionsModalRef = useRef<IModalRef>();
   const [selectedVerseLocation, setSelectedVerseLocation] =
@@ -67,14 +68,14 @@ const PageVersesList = (props: IPageVersesList) => {
   return (
     <View style={styles.containerView}>
       <ImageBackground
-        source={backgroundImage}
+        source={backgroundImage ?? IMAGES.mushafFrame}
         style={[{height: '100%', width: '100%'}, quranPageContainerStyle]}
         resizeMode={resizeImageBackgroundMode ?? 'cover'}>
         <TouchableOpacity
           style={styles.containerBtn}
           activeOpacity={1}
           onPress={onContainerPress}>
-          {showChapterHeader && (
+          {showChapterHeader && showChapterName && (
             <QuranPageHeader
               chapterId={chapterId}
               surahNameFrameImage={IMAGES.surahNameFrame}
@@ -93,6 +94,8 @@ const PageVersesList = (props: IPageVersesList) => {
                 selectedVerse={selectedVerse}
                 seSelectedVerse={setSelectedVerse}
                 setSelectedVerseLocation={onVersePress}
+                selectionColor={selectionColor}
+                pageNumber={item?.page_number}
               />
             </View>
           ))}
