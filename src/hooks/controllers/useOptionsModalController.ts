@@ -1,5 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard';
-import {Dimensions} from 'react-native';
+import {Dimensions, I18nManager} from 'react-native';
 import {IReciter, ISelectedVerseLocation, ISurahVerse} from '../../types';
 import {useGetChapterAudio} from '../apis';
 
@@ -56,7 +56,11 @@ const useOptionsModalController = ({
       return {
         translateX:
           selectedVerseLocation?.itemLocationX + OPTION_CONTAINER_WIDTH < width
-            ? selectedVerseLocation?.itemLocationX
+            ? I18nManager.isRTL
+              ? -selectedVerseLocation?.itemLocationX
+              : selectedVerseLocation?.itemLocationX
+            : I18nManager.isRTL
+            ? -(selectedVerseLocation?.itemLocationX - 100)
             : selectedVerseLocation?.itemLocationX - 100,
         translateY:
           selectedVerseLocation?.itemLocationY + OPTION_CONTAINER_HEIGHT < width
