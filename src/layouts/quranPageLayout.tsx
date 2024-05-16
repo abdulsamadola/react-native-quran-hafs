@@ -31,7 +31,7 @@ const QuranPageLayout = ({
     chapterId,
     type,
   });
-  const {chapterVerses, isLoading} = useGetChapterByPage({
+  const {chapterVerses, isLoading, chapterProgress} = useGetChapterByPage({
     chapterLookUp,
     chapterId,
     type,
@@ -91,7 +91,7 @@ const QuranPageLayout = ({
       }}>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         {isLoading ? (
-          <Loader />
+          <Loader chapterProgress={chapterProgress} showTxt />
         ) : (
           <FlatList
             ref={flatlistRef}

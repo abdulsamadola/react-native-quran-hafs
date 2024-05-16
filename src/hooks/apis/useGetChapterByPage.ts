@@ -23,6 +23,8 @@ const useGetChapterByPage = ({
 }: IProps) => {
   const [chapterVerses, setChapterVerse] = useState<IChapterVerses[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [chapterProgress, setChapterProgress] = useState(0);
+  const [chapterFontsProgress, setChpaterFontsProgress] = useState(0);
 
   const {downoladThePageFont} = usePageFontFileController();
   const {_renderVersesNewForm} = usePageLineController();
@@ -42,7 +44,6 @@ const useGetChapterByPage = ({
     await handleQuranChaptersDirectory();
     if (!isFileExistsLocaly) {
       const res: IChapterVerses[] | undefined = await getTargetChapterPage();
-      console.log(JSON.stringify(res));
       await saveChapterAsJsonFile(chapterFileName, JSON.stringify(res));
       await handleFontLoad();
       if (res) setChapetersHandler([...res]);
@@ -55,9 +56,13 @@ const useGetChapterByPage = ({
   };
   const handleFontLoad = async () => {
     if (!chapterLookUp) return;
-    const promises = chapterLookUp?.map((item: IChapterLookUp) =>
-      downoladThePageFont(Number(item?.page_number), () => {}, QURAN_FONTS_API),
-    );
+    const promises = chapterLookUp?.map((item: IChapterLookUp, index) => {
+      return downoladThePageFont(
+        Number(item?.page_number),
+        () => {},
+        QURAN_FONTS_API,
+      );
+    });
     try {
       const promiseRes = await Promise.all(promises);
       setTimeout(() => {
@@ -71,6 +76,15 @@ const useGetChapterByPage = ({
     try {
       const response = await axiosInstance.get(
         `/verses/by_${type}/${chapterId}?${params}`,
+        {
+          onDownloadProgress: progressEvent => {
+            if (progressEvent && progressEvent?.total) {
+              setChapterProgress(
+                Math.round((progressEvent.loaded / progressEvent?.total) * 100),
+              );
+            }
+          },
+        },
       );
       const allChapterVerses: ISurahVerse[] = response?.data?.verses;
       return await handleAllChapterPagesFormat(allChapterVerses);
@@ -119,7 +133,7 @@ const useGetChapterByPage = ({
       return queryString;
     } else return '';
   };
-  return {chapterVerses, isLoading};
+  return {chapterVerses, isLoading, chapterProgress, chapterFontsProgress};
 };
 
 export default useGetChapterByPage;
