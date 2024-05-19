@@ -19,6 +19,7 @@ interface IProps {
     value: IVersesBeforeAndAfterCurrentVerse,
   ) => void;
   originalVerse: ISurahVerse[];
+  autoCompleteAudioAfterPlayingVerse?: boolean;
 }
 const AudioPlayerControls = ({
   onPlayPause,
@@ -28,6 +29,7 @@ const AudioPlayerControls = ({
   selectedVerse,
   setSelectedVerse,
   setVersesBeforeAndAfterCurrentVerse,
+  autoCompleteAudioAfterPlayingVerse,
   originalVerse,
 }: IProps) => {
   const {onPlayerPress} = useOptionsModalController({} as any);
@@ -51,7 +53,8 @@ const AudioPlayerControls = ({
             reciterId: selectedReciter?.id,
             verse_key:
               versesBeforeAndAfterCurrentVerse?.beforeCurrentVerse?.verse_key,
-            isBeforeOrAfterVerse: true,
+            chapterId: selectedVerse?.chapter_id,
+            autoCompleteAudioAfterPlayingVerse,
           });
         }}>
         <Image source={IMAGES.playNext} style={{width: 20, height: 20}} />
@@ -69,7 +72,8 @@ const AudioPlayerControls = ({
             reciterId: selectedReciter?.id,
             verse_key:
               versesBeforeAndAfterCurrentVerse?.afterCurrentVerse?.verse_key,
-            isBeforeOrAfterVerse: true,
+            chapterId: selectedVerse?.chapter_id,
+            autoCompleteAudioAfterPlayingVerse,
           });
           setSelectedVerse(versesBeforeAndAfterCurrentVerse?.afterCurrentVerse);
           handleVersesBeforeAndAfterCurrentVerse({

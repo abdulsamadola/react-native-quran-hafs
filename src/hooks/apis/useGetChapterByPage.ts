@@ -1,9 +1,19 @@
 import {useEffect, useState} from 'react';
-import {IChapterLookUp, IChapterVerses, ISurahVerse} from '../../types';
-import {DEFAULT_VERSES_PARAMS, QURAN_CHAPTERS_DIRECTORY} from '../../common';
+import {
+  IChapterLookUp,
+  IChapterVerses,
+  ISurahVerse,
+  QuranTypesEnums,
+} from '../../types';
+import {
+  DEFAULT_VERSES_PARAMS,
+  QURAN_CHAPTERS_DIRECTORY,
+  QURAN_JUZS_DIRECTORY,
+} from '../../common';
 import {
   axiosInstance,
   handleQuranChaptersDirectory,
+  handleQuranJuzsDirectory,
   isFileExists,
   readFromLocalStorageFile,
   saveChapterAsJsonFile,
@@ -12,7 +22,7 @@ import {usePageFontFileController, usePageLineController} from '../controllers';
 interface IProps {
   chapterLookUp: IChapterLookUp[] | undefined;
   chapterId: number;
-  type: 'chapter';
+  type: QuranTypesEnums;
   QURAN_FONTS_API: string;
 }
 const useGetChapterByPage = ({
@@ -24,7 +34,6 @@ const useGetChapterByPage = ({
   const [chapterVerses, setChapterVerse] = useState<IChapterVerses[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [chapterProgress, setChapterProgress] = useState(0);
-  const [chapterFontsProgress, setChpaterFontsProgress] = useState(0);
 
   const {downoladThePageFont} = usePageFontFileController();
   const {_renderVersesNewForm} = usePageLineController();
@@ -39,16 +48,25 @@ const useGetChapterByPage = ({
 
   const checkIfTheChapterFileExistsInLocalStorage = async () => {
     const chapterFileName = `${chapterId}.json`;
-    const chapterPath = `${QURAN_CHAPTERS_DIRECTORY}/${chapterFileName}`;
+    const chapterPath = `${
+      type === QuranTypesEnums?.chapter
+        ? QURAN_CHAPTERS_DIRECTORY
+        : QURAN_JUZS_DIRECTORY
+    }/${chapterFileName}`;
     const isFileExistsLocaly = await isFileExists(chapterPath);
-    await handleQuranChaptersDirectory();
+    if (type === QuranTypesEnums.chapter) await handleQuranChaptersDirectory();
+    else await handleQuranJuzsDirectory();
+
     if (!isFileExistsLocaly) {
       const res: IChapterVerses[] | undefined = await getTargetChapterPage();
-      await saveChapterAsJsonFile(chapterFileName, JSON.stringify(res));
+      await saveChapterAsJsonFile(chapterFileName, JSON.stringify(res), type);
       await handleFontLoad();
       if (res) setChapetersHandler([...res]);
     } else {
-      const storedChapterFile = await readFromLocalStorageFile(chapterFileName);
+      const storedChapterFile = await readFromLocalStorageFile(
+        chapterFileName,
+        type,
+      );
       await handleFontLoad();
       if (storedChapterFile)
         setChapetersHandler([...JSON.parse(storedChapterFile)]);
@@ -101,6 +119,8 @@ const useGetChapterByPage = ({
           item => item?.page_number == currentPage,
         );
         const currentPageJuzNumber = currentPageVerses[0]?.juz_number;
+        const chapter_id = currentPageVerses[0]?.chapter_id;
+        const isFirstChapterPage = currentPageVerses[0]?.verse_number == 1;
         chapterPagesWithVersesToSave.push({
           verses: _renderVersesNewForm({
             pageVerses: currentPageVerses,
@@ -108,6 +128,8 @@ const useGetChapterByPage = ({
           page_number: currentPage,
           juz_number: currentPageJuzNumber,
           originalVerses: currentPageVerses,
+          chapter_id,
+          isFirstChapterPage,
         });
       }
 
@@ -133,7 +155,7 @@ const useGetChapterByPage = ({
       return queryString;
     } else return '';
   };
-  return {chapterVerses, isLoading, chapterProgress, chapterFontsProgress};
+  return {chapterVerses, isLoading, chapterProgress};
 };
 
 export default useGetChapterByPage;

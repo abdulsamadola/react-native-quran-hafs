@@ -7,14 +7,16 @@ import {
   IQuranPageLayout,
   ISurahVerse,
   IVersesBeforeAndAfterCurrentVerse,
+  QuranTypesEnums,
 } from '../types';
 import {AudioPlayer, Loader, PageVersesList} from '../components';
 import {useGetChapterByPage, useGetChapterLookup} from '../hooks';
 import useGetReciters from '../hooks/apis/useGetReciters';
+import {ALFATIHA_CHAPTER_ID, ALTAWBA_CHAPTER_ID} from '../common';
 
 const QuranPageLayout = ({
   chapterId = 1,
-  type = 'chapter',
+  type = QuranTypesEnums.chapter,
   QURAN_FONTS_API,
   showSlider,
   selectedBookedMarkedVerse,
@@ -25,6 +27,7 @@ const QuranPageLayout = ({
   resizeImageBackgroundMode,
   quranPageContainerStyle,
   selectionColor,
+  autoCompleteAudioAfterPlayingVerse,
 }: IQuranPageLayout) => {
   const flatlistRef = useRef<any>();
   const {chapterLookUp} = useGetChapterLookup({
@@ -37,7 +40,7 @@ const QuranPageLayout = ({
     type,
     QURAN_FONTS_API: QURAN_FONTS_API,
   });
-  const {allReciters} = useGetReciters({chapterId});
+  const {allReciters} = useGetReciters({chapterId, type});
   const audioPlayerRef = useRef<IAudioPlayerRef>();
   const [selectedVerse, setSelectedVerse] = useState<ISurahVerse>(
     {} as ISurahVerse,
@@ -114,9 +117,15 @@ const QuranPageLayout = ({
                   setVersesBeforeAndAfterCurrentVerse
                 }
                 onContainerPress={onContainerPress}
-                chapterId={chapterId}
-                showChapterName={index === 0}
-                showBismllah={chapterId !== 9 && index === 0}
+                chapterId={item?.chapter_id}
+                showChapterName={index === 0 || item?.isFirstChapterPage}
+                showBismllah={
+                  (item?.chapter_id != ALTAWBA_CHAPTER_ID &&
+                    index === 0 &&
+                    item?.chapter_id != ALFATIHA_CHAPTER_ID) ||
+                  (item?.isFirstChapterPage &&
+                    item?.chapter_id != ALTAWBA_CHAPTER_ID)
+                }
                 pageNumber={item?.page_number}
                 juzNumber={item?.juz_number}
                 originalVerse={item?.originalVerses}
@@ -126,6 +135,9 @@ const QuranPageLayout = ({
                 resizeImageBackgroundMode={resizeImageBackgroundMode}
                 quranPageContainerStyle={quranPageContainerStyle}
                 selectionColor={selectionColor}
+                autoCompleteAudioAfterPlayingVerse={
+                  autoCompleteAudioAfterPlayingVerse
+                }
               />
             )}
             onScrollToIndexFailed={info => {
@@ -142,7 +154,7 @@ const QuranPageLayout = ({
         )}
         <AudioPlayer
           ref={audioPlayerRef}
-          chapterId={chapterId}
+          chapterId={selectedVerse?.chapter_id}
           setSelectedVerse={setSelectedVerse}
           selectedVerse={selectedVerse}
           allReciter={allReciters}
@@ -152,6 +164,9 @@ const QuranPageLayout = ({
           }
           originalVerse={originalVerse}
           showSlider={showSlider}
+          autoCompleteAudioAfterPlayingVerse={
+            autoCompleteAudioAfterPlayingVerse
+          }
         />
       </View>
     </SafeAreaView>

@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
-import {IChapterLookUp} from '../../types';
+import {IChapterLookUp, QuranTypesEnums} from '../../types';
 import {axiosInstance} from '../../utils';
 
 interface IProps {
   chapterId: number;
-  type: 'chapter';
+  type: QuranTypesEnums;
 }
 
 const useGetChapterLookup = ({chapterId, type}: IProps) => {

@@ -29,6 +29,7 @@ interface IProps {
   ) => void;
   originalVerse: ISurahVerse[];
   showSlider?: boolean;
+  autoCompleteAudioAfterPlayingVerse?: boolean;
 }
 const {height} = Dimensions.get('screen');
 const AudioPlayer = (props: IProps, ref: any) => {
@@ -41,6 +42,7 @@ const AudioPlayer = (props: IProps, ref: any) => {
     setVersesBeforeAndAfterCurrentVerse,
     originalVerse,
     showSlider,
+    autoCompleteAudioAfterPlayingVerse,
   } = props;
   const [selectedReciter, setSelectedReciter] = useState<IReciter>();
   const {duration, position} = useProgress();
@@ -114,6 +116,9 @@ const AudioPlayer = (props: IProps, ref: any) => {
               setSelectedVerse={setSelectedVerse}
               selectedVerse={selectedVerse}
               originalVerse={originalVerse}
+              autoCompleteAudioAfterPlayingVerse={
+                autoCompleteAudioAfterPlayingVerse
+              }
             />
           </View>
 
@@ -131,6 +136,9 @@ const AudioPlayer = (props: IProps, ref: any) => {
           setSelectedReciter={setSelectedReciter}
           chapterId={chapterId}
           selectedVerse={selectedVerse}
+          autoCompleteAudioAfterPlayingVerse={
+            autoCompleteAudioAfterPlayingVerse
+          }
         />
       </View>
     )

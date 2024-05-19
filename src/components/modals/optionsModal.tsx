@@ -21,6 +21,8 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
     handlePlayPress,
     selectedReciter,
     onBookMarkedVerse,
+    chapterId,
+    autoCompleteAudioAfterPlayingVerse,
   } = props;
   const [isVisible, setIsVisible] = useState(false);
 
@@ -79,6 +81,8 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
                   reciterId: selectedReciter?.id as number,
                   verse_key: selectedVerse?.verse_key,
                   handlePlayPress,
+                  chapterId,
+                  autoCompleteAudioAfterPlayingVerse,
                 })
               }>
               {isVersePositionLoading ? (

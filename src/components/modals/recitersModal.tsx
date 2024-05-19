@@ -20,6 +20,7 @@ interface IProps {
   setSelectedReciter: (value: IReciter) => void;
   chapterId: number;
   selectedVerse: ISurahVerse;
+  autoCompleteAudioAfterPlayingVerse?: boolean;
 }
 const RecitersModal = (props: IProps, ref: any) => {
   const {
@@ -28,6 +29,7 @@ const RecitersModal = (props: IProps, ref: any) => {
     setSelectedReciter,
     chapterId,
     selectedVerse,
+    autoCompleteAudioAfterPlayingVerse,
   } = props;
   const [isVisible, setIsVisible] = useState(false);
   const {getChapterAudionUrl} = useGetChapterAudio();
@@ -47,6 +49,7 @@ const RecitersModal = (props: IProps, ref: any) => {
       reciterId: item?.id,
       chapterId,
       verse_key: selectedVerse?.verse_key,
+      autoCompleteAudioAfterPlayingVerse,
     });
     closeModal();
     setSelectedReciter(item);

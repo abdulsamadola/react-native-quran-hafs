@@ -74,6 +74,8 @@ export interface IChapterVerses {
   page_number: number;
   juz_number: number;
   originalVerses: ISurahVerse[];
+  chapter_id: number;
+  isFirstChapterPage: boolean;
 }
 
 export interface ISelectedVerseLocation {
@@ -118,6 +120,8 @@ export interface IOptionsModal {
   handlePlayPress: () => void;
   selectedReciter: IReciter | undefined;
   onBookMarkedVerse: (verse: ISurahVerse) => void;
+  chapterId: number;
+  autoCompleteAudioAfterPlayingVerse?: boolean;
 }
 
 export interface IPageVersesListRef {
@@ -151,11 +155,12 @@ export interface IPageVersesList {
   quranPageContainerStyle?: StyleProp<ViewStyle>;
   resizeImageBackgroundMode?: ImageResizeMode;
   selectionColor?: ColorValue;
+  autoCompleteAudioAfterPlayingVerse?: boolean;
 }
 
 export interface IQuranPageLayout {
   chapterId: number;
-  type?: 'chapter';
+  type?: QuranTypesEnums;
   chapterHeader?: ReactNode;
   QURAN_FONTS_API: string;
   showSlider?: boolean;
@@ -167,4 +172,10 @@ export interface IQuranPageLayout {
   resizeImageBackgroundMode?: ImageResizeMode;
   quranPageContainerStyle?: StyleProp<ViewStyle>;
   selectionColor?: ColorValue;
+  autoCompleteAudioAfterPlayingVerse?: boolean;
+}
+
+export enum QuranTypesEnums {
+  chapter = 'chapter',
+  juz = 'juz',
 }

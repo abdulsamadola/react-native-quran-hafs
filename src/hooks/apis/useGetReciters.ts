@@ -1,11 +1,17 @@
 import {useEffect, useState} from 'react';
 import {QURAN_API} from '../../common';
 import {axiosInstance} from '../../utils';
-import {IReciter} from '../../types';
+import {IReciter, QuranTypesEnums} from '../../types';
 import useGetChapterAudio from './useGetChapterAudio';
 import {I18nManager} from 'react-native';
 
-const useGetReciters = ({chapterId}: {chapterId: number}) => {
+const useGetReciters = ({
+  chapterId,
+  type,
+}: {
+  chapterId: number;
+  type: QuranTypesEnums;
+}) => {
   const [allReciters, setAllReciters] = useState<IReciter[]>([]);
   const {getChapterAudionUrl} = useGetChapterAudio();
   useEffect(() => {
@@ -27,7 +33,8 @@ const useGetReciters = ({chapterId}: {chapterId: number}) => {
       const url = `${QURAN_API}/audio/reciters?${queryString}`;
       const response = await axiosInstance.get(url);
       const reciters: IReciter[] = response.data.reciters;
-      getChapterAudionUrl({reciterId: reciters[0]?.id, chapterId});
+      if (type === QuranTypesEnums.chapter)
+        getChapterAudionUrl({reciterId: reciters[0]?.id, chapterId});
       setAllReciters(reciters);
     } catch (error) {}
   };

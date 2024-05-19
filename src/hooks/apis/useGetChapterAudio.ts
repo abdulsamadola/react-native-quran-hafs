@@ -10,11 +10,11 @@ const useGetChapterAudio = () => {
     reciterId: number,
     verseKey: string,
     callback?: () => void,
+    autoCompleteAudioAfterPlayingVerse?: boolean,
   ) => {
     // clear timeout created before
     if (timeoutAudio) clearTimeout(timeoutAudio);
     try {
-      // if (isBeforeOrAfterVerse) await TrackPlayer.pause();
       setIsVersePositionLoading(true);
       const url = `${QURAN_API}/audio/reciters/${reciterId}/timestamp?verse_key=${verseKey}`;
       const response = await axiosInstance.get(url);
@@ -25,10 +25,11 @@ const useGetChapterAudio = () => {
       await TrackPlayer.seekTo(start);
       if (callback) callback();
       const stop = result.timestamp_to / 1000 - result.timestamp_from / 1000;
-      timeoutAudio = setTimeout(() => {
-        TrackPlayer.pause();
-        clearTimeout(timeoutAudio);
-      }, stop * 1000);
+      if (!autoCompleteAudioAfterPlayingVerse)
+        timeoutAudio = setTimeout(() => {
+          TrackPlayer.pause();
+          clearTimeout(timeoutAudio);
+        }, stop * 1000);
     } catch (e) {
       setIsVersePositionLoading(false);
     }
@@ -38,10 +39,14 @@ const useGetChapterAudio = () => {
     reciterId,
     chapterId,
     verse_key,
+    autoCompleteAudioAfterPlayingVerse,
+    callback,
   }: {
     reciterId: number;
     chapterId: number;
     verse_key?: string;
+    autoCompleteAudioAfterPlayingVerse?: boolean;
+    callback?: () => void;
   }) => {
     const queryParams = {
       chapter: chapterId,
@@ -57,7 +62,15 @@ const useGetChapterAudio = () => {
       const url = `${QURAN_API}/audio/reciters/${reciterId}/audio_files?${queryString}`;
       const response = await axiosInstance.get(url);
       const chapterAudioFiles = response.data.audio_files;
-      setUpChapterAudio(chapterAudioFiles, verse_key, reciterId);
+      setUpChapterAudio(
+        chapterAudioFiles,
+        verse_key,
+        reciterId,
+        chapterId,
+        autoCompleteAudioAfterPlayingVerse,
+        callback,
+      );
+      return response?.data;
     } catch (error) {}
   };
 
@@ -69,6 +82,9 @@ const useGetChapterAudio = () => {
     chapterAudioFiles: [{audio_url: string}],
     verse_key?: string,
     reciterId?: number,
+    chapterId?: number,
+    autoCompleteAudioAfterPlayingVerse?: boolean,
+    callback?: () => void,
   ) => {
     const audioFileUrl = chapterAudioFiles[0].audio_url;
     resetTrackPlayer();
@@ -78,9 +94,16 @@ const useGetChapterAudio = () => {
         url: audioFileUrl,
         title: 'Al Quran',
         duration: 60,
+        chapter_id: chapterId,
       },
     ]);
-    if (verse_key) getVerseAudio(reciterId as number, verse_key);
+    if (verse_key)
+      getVerseAudio(
+        reciterId as number,
+        verse_key,
+        callback,
+        autoCompleteAudioAfterPlayingVerse,
+      );
   };
   return {getChapterAudionUrl, getVerseAudio, isVersePositionLoading};
 };

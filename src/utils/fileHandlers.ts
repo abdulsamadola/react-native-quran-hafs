@@ -1,5 +1,6 @@
 import RNFS from 'react-native-fs';
-import {QURAN_CHAPTERS_DIRECTORY} from '../common';
+import {QURAN_CHAPTERS_DIRECTORY, QURAN_JUZS_DIRECTORY} from '../common';
+import {QuranTypesEnums} from '../types';
 
 const downloadFontsFiles = () => {
   RNFS.downloadFile({
@@ -27,8 +28,20 @@ const isFileExists = (filePath: string) => {
       console.log(error);
     });
 };
-const saveChapterAsJsonFile = (fileName: string, fileContent: string) => {
-  RNFS.writeFile(`${QURAN_CHAPTERS_DIRECTORY}/${fileName}`, fileContent, 'utf8')
+const saveChapterAsJsonFile = (
+  fileName: string,
+  fileContent: string,
+  type: QuranTypesEnums,
+) => {
+  RNFS.writeFile(
+    `${
+      type === QuranTypesEnums.chapter
+        ? QURAN_CHAPTERS_DIRECTORY
+        : QURAN_JUZS_DIRECTORY
+    }/${fileName}`,
+    fileContent,
+    'utf8',
+  )
     .then(success => {
       console.log('FILE WRITTEN!');
     })
@@ -36,8 +49,15 @@ const saveChapterAsJsonFile = (fileName: string, fileContent: string) => {
       console.log(err.message);
     });
 };
-const readFromLocalStorageFile = (fileName: string) => {
-  return RNFS.readFile(`${QURAN_CHAPTERS_DIRECTORY}/${fileName}`, 'utf8')
+const readFromLocalStorageFile = (fileName: string, type: QuranTypesEnums) => {
+  return RNFS.readFile(
+    `${
+      type === QuranTypesEnums.chapter
+        ? QURAN_CHAPTERS_DIRECTORY
+        : QURAN_JUZS_DIRECTORY
+    }/${fileName}`,
+    'utf8',
+  )
     .then(res => res)
     .catch(err => {
       console.log(err.message);
@@ -54,6 +74,17 @@ const handleQuranChaptersDirectory = async () => {
         console.error('Error creating folder:', error);
       });
 };
+const handleQuranJuzsDirectory = async () => {
+  const isDirectoryExixts = await isFileExists(QURAN_JUZS_DIRECTORY);
+  if (!isDirectoryExixts)
+    RNFS.mkdir(QURAN_JUZS_DIRECTORY)
+      .then(() => {
+        console.log('Folder created successfully');
+      })
+      .catch(error => {
+        console.error('Error creating folder:', error);
+      });
+};
 
 export {
   downloadFontsFiles,
@@ -61,4 +92,5 @@ export {
   saveChapterAsJsonFile,
   handleQuranChaptersDirectory,
   readFromLocalStorageFile,
+  handleQuranJuzsDirectory,
 };

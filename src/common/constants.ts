@@ -14,6 +14,8 @@ export const DEFAULT_VERSES_PARAMS = {
 
 export const SURAH_WORD_AR = String.fromCharCode(92);
 export const basmalah = '3 2 1';
+export const ALTAWBA_CHAPTER_ID = 9;
+export const ALFATIHA_CHAPTER_ID = 9;
 
 export enum FONT_FAMILY {
   BISMLLAH = 'QCF_BSML',
@@ -21,3 +23,4 @@ export enum FONT_FAMILY {
 }
 
 export const QURAN_CHAPTERS_DIRECTORY = `${RNFS.DocumentDirectoryPath}/QuranChapters`;
+export const QURAN_JUZS_DIRECTORY = `${RNFS.DocumentDirectoryPath}/QuranJuzs`;

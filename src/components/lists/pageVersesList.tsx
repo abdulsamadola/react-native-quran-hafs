@@ -7,19 +7,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {IModalRef, IPageVersesList, ISelectedVerseLocation} from '../../types';
 import {COLORS, FONT_FAMILY, IMAGES} from '../../common';
+import {_renderChapterName} from '../../helpers';
 import {BismillahText, QuranPageHeader} from '../../layouts';
+import {IModalRef, IPageVersesList, ISelectedVerseLocation} from '../../types';
 import {
   handleVersesBeforeAndAfterCurrentVerse,
-  horizontalScale,
   hp,
   verticalScale,
-  wp,
 } from '../../utils';
 import {OptionsModal} from '../modals';
 import VerseLinesWordsList from './verseLinesWordsList';
-import {_renderChapterName} from '../../helpers';
 const {width} = Dimensions.get('window');
 
 const PageVersesList = (props: IPageVersesList) => {
@@ -42,6 +40,7 @@ const PageVersesList = (props: IPageVersesList) => {
     resizeImageBackgroundMode,
     showChapterName,
     selectionColor,
+    autoCompleteAudioAfterPlayingVerse,
   } = props;
   const optionsModalRef = useRef<IModalRef>();
   const [selectedVerseLocation, setSelectedVerseLocation] =
@@ -107,6 +106,10 @@ const PageVersesList = (props: IPageVersesList) => {
             handlePlayPress={handlePlayPress}
             selectedReciter={audioPlayerRef?.current?._renderSelelctedReciter()}
             onBookMarkedVerse={onBookMarkedVerse}
+            chapterId={chapterId}
+            autoCompleteAudioAfterPlayingVerse={
+              autoCompleteAudioAfterPlayingVerse
+            }
           />
 
           <View style={styles.pageNumberContainer}>

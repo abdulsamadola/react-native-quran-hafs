@@ -2,6 +2,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {Dimensions, I18nManager} from 'react-native';
 import {IReciter, ISelectedVerseLocation, ISurahVerse} from '../../types';
 import {useGetChapterAudio} from '../apis';
+import TrackPlayer from 'react-native-track-player';
 
 const OPTION_CONTAINER_WIDTH = 130;
 const OPTION_CONTAINER_HEIGHT = 50;
@@ -17,29 +18,41 @@ interface IProps {
 const useOptionsModalController = ({
   selectedVerseLocation,
   selectedVerse,
-  selectedReciter,
-  handlePlayPress,
   setIsVisible,
   seSelectedVerse,
 }: IProps) => {
-  const {getVerseAudio, isVersePositionLoading} = useGetChapterAudio();
+  const {getVerseAudio, isVersePositionLoading, getChapterAudionUrl} =
+    useGetChapterAudio();
 
-  const onPlayerPress = ({
+  const onPlayerPress = async ({
     reciterId,
     handlePlayPress,
     verse_key,
-    isBeforeOrAfterVerse,
+    chapterId,
+    autoCompleteAudioAfterPlayingVerse,
   }: {
     reciterId: number;
     verse_key: string;
     handlePlayPress?: () => void;
-    isBeforeOrAfterVerse?: boolean;
+    chapterId: number;
+    autoCompleteAudioAfterPlayingVerse?: boolean;
   }) => {
+    const trackData = await TrackPlayer.getActiveTrack();
+    if (trackData?.chapter_id != chapterId) {
+      await getChapterAudionUrl({
+        reciterId: reciterId,
+        chapterId,
+        verse_key: selectedVerse?.verse_key,
+        autoCompleteAudioAfterPlayingVerse,
+        callback: handlePlayPress,
+      });
+      return;
+    }
     getVerseAudio(
       reciterId as number,
       verse_key,
       handlePlayPress,
-      isBeforeOrAfterVerse,
+      autoCompleteAudioAfterPlayingVerse,
     );
   };
   const copyVerseToClipBoard = () => {
