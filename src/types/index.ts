@@ -19,7 +19,6 @@ export interface IChapterLookUp {
 
 export interface ISurahVerse {
   id: number;
-  verse_number: number;
   verse_key: string;
   hizb_number: number;
   rub_el_hizb_number: number;
@@ -34,6 +33,7 @@ export interface ISurahVerse {
   words: IVerseWord[];
   chapter_code_v1: number;
   verse_font_famliy: string;
+  verse_number: number;
 }
 
 export interface IVerseWord {
@@ -67,6 +67,8 @@ export interface ILineNumber {
   words: IVerseDataInWord[];
   wordCodeV1?: string;
   page_number?: number;
+  isFirstLine?: boolean;
+  chapter_id: number;
 }
 
 export interface IChapterVerses {

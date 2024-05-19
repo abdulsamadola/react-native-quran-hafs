@@ -7,7 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {COLORS, FONT_FAMILY, IMAGES} from '../../common';
+import {
+  ALFATIHA_CHAPTER_ID,
+  ALTAWBA_CHAPTER_ID,
+  COLORS,
+  FONT_FAMILY,
+  IMAGES,
+} from '../../common';
 import {_renderChapterName} from '../../helpers';
 import {BismillahText, QuranPageHeader} from '../../layouts';
 import {IModalRef, IPageVersesList, ISelectedVerseLocation} from '../../types';
@@ -74,29 +80,40 @@ const PageVersesList = (props: IPageVersesList) => {
           style={styles.containerBtn}
           activeOpacity={1}
           onPress={onContainerPress}>
-          {showChapterHeader && showChapterName && (
-            <QuranPageHeader
-              chapterId={chapterId}
-              surahNameFrameImage={IMAGES.surahNameFrame}
-            />
-          )}
-          {showBismllah && <BismillahText />}
-          <View style={{marginTop: 20}} />
+          {/* {showBismllah && <BismillahText />} */}
+          <View
+            style={{
+              marginTop: 20,
+            }}
+          />
           {pageVersesToDisplay?.map(item => (
-            <View
-              style={{flex: pageLinesCount && pageLinesCount >= 10 ? 1 : 0}}
-              key={`${item?.lineNumber}`}>
-              <VerseLinesWordsList
-                key={`${item?.lineNumber}`}
-                isCentered={item?.page_number === 1 || item?.page_number === 2}
-                item={item as any}
-                selectedVerse={selectedVerse}
-                seSelectedVerse={setSelectedVerse}
-                setSelectedVerseLocation={onVersePress}
-                selectionColor={selectionColor}
-                pageNumber={item?.page_number}
-              />
-            </View>
+            <>
+              {item?.isFirstLine && (
+                <QuranPageHeader
+                  chapterId={item?.chapter_id}
+                  surahNameFrameImage={IMAGES.surahNameFrame}
+                />
+              )}
+              {item?.isFirstLine &&
+                item?.chapter_id != ALTAWBA_CHAPTER_ID &&
+                item?.chapter_id != ALFATIHA_CHAPTER_ID && <BismillahText />}
+              <View
+                style={{flex: pageLinesCount && pageLinesCount >= 10 ? 1 : 0}}
+                key={`${item?.lineNumber}`}>
+                <VerseLinesWordsList
+                  key={`${item?.lineNumber}`}
+                  isCentered={
+                    item?.page_number === 1 || item?.page_number === 2
+                  }
+                  item={item as any}
+                  selectedVerse={selectedVerse}
+                  seSelectedVerse={setSelectedVerse}
+                  setSelectedVerseLocation={onVersePress}
+                  selectionColor={selectionColor}
+                  pageNumber={item?.page_number}
+                />
+              </View>
+            </>
           ))}
           <OptionsModal
             ref={optionsModalRef}

@@ -48,6 +48,8 @@ const addOrUpdatePageLineNumber = (
     const wordCodeV1 = wordObj?.code_v1;
     lineNumbers.push({
       lineNumber: wordLineNumber,
+      isFirstLine: verse?.verse_number == 1,
+      chapter_id: verse?.chapter_id,
       words: [
         {
           ...(_renderWordObjectFormat(wordObj) as IVerseWord),
@@ -64,6 +66,8 @@ const addOrUpdatePageLineNumber = (
     const wordCodeV1 = `${lineNumbers[lineNumberIndex]?.wordCodeV1}${wordObj?.code_v1}`;
     lineNumbers[lineNumberIndex] = {
       lineNumber: wordLineNumber,
+      chapter_id: verse?.chapter_id,
+      isFirstLine: lineNumbers[lineNumberIndex]?.isFirstLine,
       words: [
         ...(lineNumbers[lineNumberIndex]?.words as any),
         {

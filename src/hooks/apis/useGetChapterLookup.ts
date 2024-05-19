@@ -18,10 +18,12 @@ const useGetChapterLookup = ({chapterId, type}: IProps) => {
         `/pages/lookup?${type}_number=${chapterId}`,
       );
       let pageslookup = Object.entries(response?.data?.pages);
+      console.log(response.data);
       const pageslookupEdited = pageslookup?.map(([key, value]) => ({
         page_number: key,
         page_range: value,
       }));
+      console.log(JSON.stringify(pageslookupEdited));
       setChapterLookUp(pageslookupEdited as IChapterLookUp[]);
     } catch (e) {}
   };

@@ -85,7 +85,7 @@ const useGetChapterByPage = ({
       const promiseRes = await Promise.all(promises);
       setTimeout(() => {
         setIsLoading(false);
-      }, 200);
+      }, 500);
     } catch (e) {}
   };
 
