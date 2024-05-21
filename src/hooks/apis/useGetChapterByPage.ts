@@ -143,8 +143,6 @@ const useGetChapterByPage = ({
 
       const queryParams = {
         ...DEFAULT_VERSES_PARAMS,
-        from: firstChapterVerse,
-        to: lastChapterVerse,
       };
       const queryString = Object.entries(queryParams)
         .map(
