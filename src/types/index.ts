@@ -158,6 +158,7 @@ export interface IPageVersesList {
   resizeImageBackgroundMode?: ImageResizeMode;
   selectionColor?: ColorValue;
   autoCompleteAudioAfterPlayingVerse?: boolean;
+  type: QuranTypesEnums;
 }
 
 export interface IQuranPageLayout {

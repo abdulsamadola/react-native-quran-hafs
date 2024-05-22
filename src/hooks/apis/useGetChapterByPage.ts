@@ -39,9 +39,8 @@ const useGetChapterByPage = ({
   const {_renderVersesNewForm} = usePageLineController();
 
   useEffect(() => {
-    if (chapterLookUp?.length && chapterLookUp)
-      checkIfTheChapterFileExistsInLocalStorage();
-  }, [chapterLookUp]);
+    checkIfTheChapterFileExistsInLocalStorage();
+  }, []);
   const setChapetersHandler = (chapters: IChapterVerses[]) => {
     setChapterVerse([...chapters]);
   };
@@ -58,28 +57,25 @@ const useGetChapterByPage = ({
     else await handleQuranJuzsDirectory();
 
     if (!isFileExistsLocaly) {
-      const res: IChapterVerses[] | undefined = await getTargetChapterPage();
+      const res: IChapterVerses[] | undefined | any =
+        await getTargetChapterPage();
       await saveChapterAsJsonFile(chapterFileName, JSON.stringify(res), type);
-      await handleFontLoad();
+      await handleFontLoad(res);
       if (res) setChapetersHandler([...res]);
     } else {
       const storedChapterFile = await readFromLocalStorageFile(
         chapterFileName,
         type,
       );
-      await handleFontLoad();
+      await handleFontLoad(JSON.parse(storedChapterFile as any));
       if (storedChapterFile)
         setChapetersHandler([...JSON.parse(storedChapterFile)]);
     }
   };
-  const handleFontLoad = async () => {
-    if (!chapterLookUp) return;
-    const promises = chapterLookUp?.map((item: IChapterLookUp, index) => {
-      return downoladThePageFont(
-        Number(item?.page_number),
-        () => {},
-        QURAN_FONTS_API,
-      );
+  const handleFontLoad = async (verses: ISurahVerse[]) => {
+    const pagesNumbers = getSurahOrJuzPagesCount(verses);
+    const promises = pagesNumbers?.map((item: number, index) => {
+      return downoladThePageFont(Number(item), () => {}, QURAN_FONTS_API);
     });
     try {
       const promiseRes = await Promise.all(promises);
@@ -108,50 +104,59 @@ const useGetChapterByPage = ({
       return await handleAllChapterPagesFormat(allChapterVerses);
     } catch (e) {}
   };
+  const getSurahOrJuzPagesCount = (verses: ISurahVerse[]) => {
+    const pagesNumbers: number[] = [];
+    verses?.map((verse: ISurahVerse) => {
+      if (!pagesNumbers.includes(verse?.page_number))
+        pagesNumbers.push(verse?.page_number);
+    });
+    return pagesNumbers;
+  };
   const handleAllChapterPagesFormat = async (
     allChapterVerses: ISurahVerse[],
   ) => {
     const chapterPagesWithVersesToSave = [];
-    if (chapterLookUp)
-      for (let i = 0; i < chapterLookUp.length; i++) {
-        const currentPage: any = chapterLookUp[i]?.page_number;
-        const currentPageVerses = allChapterVerses?.filter(
-          item => item?.page_number == currentPage,
-        );
-        const currentPageJuzNumber = currentPageVerses[0]?.juz_number;
-        const chapter_id = currentPageVerses[0]?.chapter_id;
-        const isFirstChapterPage = currentPageVerses[0]?.verse_number == 1;
-        chapterPagesWithVersesToSave.push({
-          verses: _renderVersesNewForm({
-            pageVerses: currentPageVerses,
-          }),
-          page_number: currentPage,
-          juz_number: currentPageJuzNumber,
-          originalVerses: currentPageVerses,
-          chapter_id,
-          isFirstChapterPage,
-        });
-      }
+    const pagesArr = getSurahOrJuzPagesCount(allChapterVerses);
+    const pagesCount = pagesArr?.length;
+    for (let i = 0; i < pagesCount; i++) {
+      const currentPage: any = pagesArr[i];
+      const currentPageVerses = allChapterVerses?.filter(
+        item => item?.page_number == currentPage,
+      );
+      const currentPageJuzNumber = currentPageVerses[0]?.juz_number;
+      const chapter_id = currentPageVerses[0]?.chapter_id;
+      const isFirstChapterPage = currentPageVerses[0]?.verse_number == 1;
+      chapterPagesWithVersesToSave.push({
+        verses: _renderVersesNewForm({
+          pageVerses: currentPageVerses,
+        }),
+        page_number: currentPage,
+        juz_number: currentPageJuzNumber,
+        originalVerses: currentPageVerses,
+        chapter_id,
+        isFirstChapterPage,
+      });
+    }
 
     return chapterPagesWithVersesToSave;
   };
   const _rednerQueryParams = () => {
-    if (chapterLookUp) {
-      const firstChapterVerse = chapterLookUp[0]?.page_range?.from;
-      const lastChapterVerse =
-        chapterLookUp[chapterLookUp?.length - 1]?.page_range?.to;
+    // if (chapterLookUp) {
+    //   const firstChapterVerse = chapterLookUp[0]?.page_range?.from;
+    //   const lastChapterVerse =
+    //     chapterLookUp[chapterLookUp?.length - 1]?.page_range?.to;
 
-      const queryParams = {
-        ...DEFAULT_VERSES_PARAMS,
-      };
-      const queryString = Object.entries(queryParams)
-        .map(
-          ([key, value]) =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
-        )
-        .join('&');
-      return queryString;
-    } else return '';
+    const queryParams = {
+      ...DEFAULT_VERSES_PARAMS,
+      // ...(type === QuranTypesEnums.juz && DEFAULT_VERSES_PARAMS)
+    };
+    const queryString = Object.entries(queryParams)
+      .map(
+        ([key, value]) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+      )
+      .join('&');
+    return queryString;
   };
   return {chapterVerses, isLoading, chapterProgress};
 };

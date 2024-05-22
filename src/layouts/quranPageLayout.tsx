@@ -108,6 +108,7 @@ const QuranPageLayout = ({
             showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
               <PageVersesList
+                type={type}
                 showChapterHeader={showChapterHeader}
                 pageVersesToDisplay={item?.verses}
                 audioPlayerRef={audioPlayerRef}

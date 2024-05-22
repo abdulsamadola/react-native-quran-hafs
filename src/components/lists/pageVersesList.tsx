@@ -16,7 +16,12 @@ import {
 } from '../../common';
 import {_renderChapterName} from '../../helpers';
 import {BismillahText, QuranPageHeader} from '../../layouts';
-import {IModalRef, IPageVersesList, ISelectedVerseLocation} from '../../types';
+import {
+  IModalRef,
+  IPageVersesList,
+  ISelectedVerseLocation,
+  QuranTypesEnums,
+} from '../../types';
 import {
   handleVersesBeforeAndAfterCurrentVerse,
   hp,
@@ -47,6 +52,7 @@ const PageVersesList = (props: IPageVersesList) => {
     showChapterName,
     selectionColor,
     autoCompleteAudioAfterPlayingVerse,
+    type,
   } = props;
   const optionsModalRef = useRef<IModalRef>();
   const [selectedVerseLocation, setSelectedVerseLocation] =
@@ -80,10 +86,9 @@ const PageVersesList = (props: IPageVersesList) => {
           style={styles.containerBtn}
           activeOpacity={1}
           onPress={onContainerPress}>
-          {/* {showBismllah && <BismillahText />} */}
           <View
             style={{
-              marginTop: 20,
+              marginTop: type === QuranTypesEnums.juz ? 20 : 10,
             }}
           />
           {pageVersesToDisplay?.map(item => (
