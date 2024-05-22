@@ -77,7 +77,7 @@ const RecitersModal = (props: IProps, ref: any) => {
                           : 'white',
                     },
                   ]}>
-                  <Text>{item?.name}</Text>
+                  <Text>{item?.reciter_name}</Text>
                 </TouchableOpacity>
               )}
             />

@@ -21,7 +21,7 @@ const useGetReciters = ({
   const getReciters = async () => {
     const queryParams = {
       locale: I18nManager.isRTL ? 'ar' : 'en',
-      fields: undefined,
+      // fields: undefined,
     };
     const queryString = Object.entries(queryParams)
       .map(
@@ -30,9 +30,9 @@ const useGetReciters = ({
       )
       .join('&');
     try {
-      const url = `${QURAN_API}/audio/reciters?${queryString}`;
+      const url = `${QURAN_API}/resources/recitations`;
       const response = await axiosInstance.get(url);
-      const reciters: IReciter[] = response.data.reciters;
+      const reciters: IReciter[] = response.data.recitations;
       if (type === QuranTypesEnums.chapter)
         getChapterAudionUrl({reciterId: reciters[0]?.id, chapterId});
       setAllReciters(reciters);

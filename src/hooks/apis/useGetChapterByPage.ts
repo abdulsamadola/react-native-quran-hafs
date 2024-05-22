@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {
   IChapterLookUp,
   IChapterVerses,
+  IQuranJuzs,
   ISurahVerse,
   QuranTypesEnums,
 } from '../../types';
@@ -9,6 +10,7 @@ import {
   DEFAULT_VERSES_PARAMS,
   QURAN_CHAPTERS_DIRECTORY,
   QURAN_JUZS_DIRECTORY,
+  QuranJuzs,
 } from '../../common';
 import {
   axiosInstance,
@@ -141,14 +143,14 @@ const useGetChapterByPage = ({
     return chapterPagesWithVersesToSave;
   };
   const _rednerQueryParams = () => {
-    // if (chapterLookUp) {
-    //   const firstChapterVerse = chapterLookUp[0]?.page_range?.from;
-    //   const lastChapterVerse =
-    //     chapterLookUp[chapterLookUp?.length - 1]?.page_range?.to;
-
+    const juzVersesCount = QuranTypesEnums?.juz
+      ? QuranJuzs.find((item: IQuranJuzs) => item?.juz_number == chapterId)
+          ?.verses_count
+      : 0;
+    const per_page = type === QuranTypesEnums.chapter ? 'all' : juzVersesCount;
     const queryParams = {
       ...DEFAULT_VERSES_PARAMS,
-      // ...(type === QuranTypesEnums.juz && DEFAULT_VERSES_PARAMS)
+      per_page,
     };
     const queryString = Object.entries(queryParams)
       .map(

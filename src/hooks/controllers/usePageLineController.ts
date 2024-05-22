@@ -44,11 +44,16 @@ const addOrUpdatePageLineNumber = (
   wordObj: IVerseWord,
   verse: ISurahVerse,
 ) => {
+  // to know if the first line property detected before or not
+  const isFirstLineAssignedBefore = lineNumbers?.some(
+    (item: ILineNumber) =>
+      item?.chapter_id == verse?.chapter_id && item?.isFirstLine,
+  );
   if (lineNumberIndex === -1) {
     const wordCodeV1 = wordObj?.code_v1;
     lineNumbers.push({
       lineNumber: wordLineNumber,
-      isFirstLine: verse?.verse_number == 1,
+      isFirstLine: isFirstLineAssignedBefore ? false : verse?.verse_number == 1,
       chapter_id: verse?.chapter_id,
       words: [
         {

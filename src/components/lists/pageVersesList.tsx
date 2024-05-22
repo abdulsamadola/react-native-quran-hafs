@@ -88,11 +88,11 @@ const PageVersesList = (props: IPageVersesList) => {
           onPress={onContainerPress}>
           <View
             style={{
-              marginTop: type === QuranTypesEnums.juz ? 20 : 10,
+              marginTop: 10,
             }}
           />
           {pageVersesToDisplay?.map(item => (
-            <>
+            <React.Fragment key={`${item?.lineNumber}`}>
               {item?.isFirstLine && (
                 <QuranPageHeader
                   chapterId={item?.chapter_id}
@@ -103,10 +103,8 @@ const PageVersesList = (props: IPageVersesList) => {
                 item?.chapter_id != ALTAWBA_CHAPTER_ID &&
                 item?.chapter_id != ALFATIHA_CHAPTER_ID && <BismillahText />}
               <View
-                style={{flex: pageLinesCount && pageLinesCount >= 10 ? 1 : 0}}
-                key={`${item?.lineNumber}`}>
+                style={{flex: pageLinesCount && pageLinesCount >= 10 ? 1 : 0}}>
                 <VerseLinesWordsList
-                  key={`${item?.lineNumber}`}
                   isCentered={
                     item?.page_number === 1 || item?.page_number === 2
                   }
@@ -118,7 +116,7 @@ const PageVersesList = (props: IPageVersesList) => {
                   pageNumber={item?.page_number}
                 />
               </View>
-            </>
+            </React.Fragment>
           ))}
           <OptionsModal
             ref={optionsModalRef}

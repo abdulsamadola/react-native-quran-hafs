@@ -1,4 +1,6 @@
-const QuranJuzs = [
+import {IQuranJuzs} from '../types';
+
+const QuranJuzs: IQuranJuzs[] = [
   {
     id: 1,
     juz_number: 1,

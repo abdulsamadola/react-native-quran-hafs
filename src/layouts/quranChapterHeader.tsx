@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 20,
   },
   surahName: {
     width: '100%',

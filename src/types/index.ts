@@ -101,7 +101,7 @@ export interface IQuranChapters {
 export interface IReciter {
   id: number;
   reciter_id: number;
-  name: string;
+  reciter_name: string;
 }
 
 export interface IAudioPlayerRef {
@@ -181,4 +181,13 @@ export interface IQuranPageLayout {
 export enum QuranTypesEnums {
   chapter = 'chapter',
   juz = 'juz',
+}
+
+export interface IQuranJuzs {
+  id: number;
+  juz_number: number;
+  verse_mapping: any;
+  first_verse_id: number;
+  last_verse_id: number;
+  verses_count: number;
 }

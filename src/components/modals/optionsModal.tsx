@@ -75,7 +75,7 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
                 height: 50,
               } as any,
             ]}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() =>
                 onPlayerPress({
                   reciterId: selectedReciter?.id as number,
@@ -90,7 +90,7 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
               ) : (
                 <Image source={IMAGES.playIcon} style={styles.icon} />
               )}
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity onPress={copyVerseToClipBoard}>
               <Image source={IMAGES.copyIcon} style={styles.icon} />
             </TouchableOpacity>

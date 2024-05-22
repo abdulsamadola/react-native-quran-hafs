@@ -125,7 +125,7 @@ const AudioPlayer = (props: IProps, ref: any) => {
           <TouchableOpacity
             onPress={openReciterModal}
             style={styles.recitersBtn}>
-            <Text numberOfLines={1}>{selectedReciter?.name}</Text>
+            <Text numberOfLines={1}>{selectedReciter?.reciter_name}</Text>
             <Image source={IMAGES.arrowDown} style={styles.closeIcon} />
           </TouchableOpacity>
         </View>
