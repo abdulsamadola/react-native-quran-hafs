@@ -65,11 +65,11 @@ npm run ios
 | Option                    | Description                                                                           | Type                         | Required |
 | ------------------------- | ------------------------------------------------------------------------------------- | ---------------------------- | -------- |
 | chapterId                 | The surah or juz id                                                                   | number                       | true     |
-| type                      | Its a type of what you want to display (surah or juz)                                 | QuranTypesEnums              | true     |
+| type                      | It's a type of what you want to display (surah or juz)                                | QuranTypesEnums              | true     |
 | QURAN_FONTS_API           | Fonts url uploaded to your server                                                     | string                       | true     |
 | backgroundImage           | The background of mushaf screen                                                       | ImageSourcePropType          | false    |
 | surahNameFrameImage       | The frame of surah name                                                               | ImageSourcePropType          | false    |
-| onBookMarkedVerse         | Callback funtion tha return verse as ISurahVerse                                      | (verse: ISurahVerse) => void | false    |
+| onBookMarkedVerse         | Callback funtion that return verse as ISurahVerse                                     | (verse: ISurahVerse) => void | false    |
 | selectedBookedMarkedVerse | The verse object returned by onBookMarkedVerse function to scroll to passed ayah page | ISurahVerse                  | false    |
 | resizeImageBackgroundMode | It's a resize mode of mushaf background image                                         | ImageResizeMode              | false    |
 | selectionColor            | It's a color when select a specific ayah                                              | ColorValue                   | false    |
