@@ -23,3 +23,31 @@ pod install
 cd ..
 npm run ios
 ```
+
+## Features
+
+| Option              | Description                                           | Type                         | Required |
+| ------------------- | ----------------------------------------------------- | ---------------------------- | -------- |
+| chapterId           | The surah or juz id                                   | number                       | true     |
+| type                | Its a type of what you want to display (surah or juz) | QuranTypesEnums              | true     |
+| QURAN_FONTS_API     | Fonts url uploaded to your server                     | string                       | true     |
+| backgroundImage     | The background of mushaf screen                       | ImageSourcePropType          | false    |
+| surahNameFrameImage | The frame of surah name                               | ImageSourcePropType          | false    |
+| onBookMarkedVerse   | Callback funtion tha return verse as ISurahVerse      | (verse: ISurahVerse) => void | false    |
+
+## Usage Example
+
+```bash
+import {QuranPageLayout, QuranTypesEnums} from 'react-native-quran-hafs';
+const App = () => {
+  return (
+    <QuranPageLayout
+      chapterId={1}
+      type={QuranTypesEnums.chapter} // QuranTypesEnums.juz
+      QURAN_FONTS_API="https://your-domain/fonts/"
+      onBookMarkedVerse={verse => console.log(verse)}
+    />
+  );
+};
+export default App;
+```

@@ -96,7 +96,7 @@ const OptionsModal = (props: IOptionsModal, ref: any) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                onBookMarkedVerse(selectedVerse);
+                if (onBookMarkedVerse) onBookMarkedVerse(selectedVerse);
                 closeModal();
               }}>
               <Image source={IMAGES.bookmark} style={styles.icon} />

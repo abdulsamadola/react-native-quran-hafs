@@ -23,7 +23,6 @@ const QuranPageLayout = ({
   onBookMarkedVerse,
   backgroundImage,
   surahNameFrameImage,
-  showChapterHeader,
   resizeImageBackgroundMode,
   quranPageContainerStyle,
   selectionColor,
@@ -109,7 +108,6 @@ const QuranPageLayout = ({
             renderItem={({item, index}) => (
               <PageVersesList
                 type={type}
-                showChapterHeader={showChapterHeader}
                 pageVersesToDisplay={item?.verses}
                 audioPlayerRef={audioPlayerRef}
                 selectedVerse={selectedVerse}

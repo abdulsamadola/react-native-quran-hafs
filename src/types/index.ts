@@ -121,7 +121,7 @@ export interface IOptionsModal {
   seSelectedVerse: (verse: ISurahVerse) => void;
   handlePlayPress: () => void;
   selectedReciter: IReciter | undefined;
-  onBookMarkedVerse: (verse: ISurahVerse) => void;
+  onBookMarkedVerse?: (verse: ISurahVerse) => void;
   chapterId: number;
   autoCompleteAudioAfterPlayingVerse?: boolean;
 }
@@ -150,10 +150,9 @@ export interface IPageVersesList {
     value: IVersesBeforeAndAfterCurrentVerse,
   ) => void;
   originalVerse: ISurahVerse[];
-  onBookMarkedVerse: (verse: ISurahVerse) => void;
-  backgroundImage: ImageSourcePropType;
-  surahNameFrameImage: ImageSourcePropType;
-  showChapterHeader?: boolean;
+  onBookMarkedVerse?: (verse: ISurahVerse) => void;
+  backgroundImage?: ImageSourcePropType;
+  surahNameFrameImage?: ImageSourcePropType;
   quranPageContainerStyle?: StyleProp<ViewStyle>;
   resizeImageBackgroundMode?: ImageResizeMode;
   selectionColor?: ColorValue;
@@ -168,10 +167,9 @@ export interface IQuranPageLayout {
   QURAN_FONTS_API: string;
   showSlider?: boolean;
   selectedBookedMarkedVerse?: ISurahVerse;
-  onBookMarkedVerse: (verse: ISurahVerse) => void;
-  backgroundImage: ImageSourcePropType;
-  surahNameFrameImage: ImageSourcePropType;
-  showChapterHeader?: boolean;
+  onBookMarkedVerse?: (verse: ISurahVerse) => void;
+  backgroundImage?: ImageSourcePropType;
+  surahNameFrameImage?: ImageSourcePropType;
   resizeImageBackgroundMode?: ImageResizeMode;
   quranPageContainerStyle?: StyleProp<ViewStyle>;
   selectionColor?: ColorValue;

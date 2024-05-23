@@ -46,13 +46,13 @@ const PageVersesList = (props: IPageVersesList) => {
     onBookMarkedVerse,
     backgroundImage,
     chapterId,
-    showChapterHeader,
     quranPageContainerStyle,
     resizeImageBackgroundMode,
     showChapterName,
     selectionColor,
     autoCompleteAudioAfterPlayingVerse,
     type,
+    surahNameFrameImage,
   } = props;
   const optionsModalRef = useRef<IModalRef>();
   const [selectedVerseLocation, setSelectedVerseLocation] =
@@ -96,7 +96,9 @@ const PageVersesList = (props: IPageVersesList) => {
               {item?.isFirstLine && (
                 <QuranPageHeader
                   chapterId={item?.chapter_id}
-                  surahNameFrameImage={IMAGES.surahNameFrame}
+                  surahNameFrameImage={
+                    surahNameFrameImage ?? IMAGES.surahNameFrame
+                  }
                 />
               )}
               {item?.isFirstLine &&
