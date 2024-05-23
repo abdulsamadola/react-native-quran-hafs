@@ -15,8 +15,9 @@ It's a simple package allowing you to display the quran as mushaf
 - Scroll to a specific verse(Ayah) page.
 
 <!-- ![Screenshot](./screenshots/1.png) -->
-
+<picture>
 <img width="50%" height="50% src="./screenshots/1.png"/>
+</picture>
 
 ## Preinstallation
 
