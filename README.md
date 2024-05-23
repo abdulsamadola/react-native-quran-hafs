@@ -13,6 +13,7 @@ It's a simple package allowing you to display the quran as mushaf
 - Use this method [_renderChapterName(chapterId)] to render the surah name like mushaf.
 - Use this method [_renderChapterAyahs(chapterId)] to render the number of surah verses(Ayahs).
 - Scroll to a specific verse(Ayah) page.
+- Support RTL Or LTR.
 
 <!-- ![Screenshot](./screenshots/1.png) -->
 <picture>
