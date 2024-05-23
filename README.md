@@ -17,7 +17,7 @@ It's a simple package allowing you to display the quran as mushaf
 
 <!-- ![Screenshot](./screenshots/1.png) -->
 <picture>
-<img src="./screenshots/1.png" width="30%" height="20%" />
+<img src="https://drive.google.com/drive/folders/13t9agWELZdZ_nMzAU82mrisX9pRt6Q3q" width="30%" height="20%" />
 </picture>
 <picture>
 <img src="./screenshots/2.png" width="30%" height="20%" />
