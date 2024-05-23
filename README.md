@@ -90,8 +90,30 @@ const App = () => {
 export default App;
 ```
 
-<!-- ## How to:
+## How to:
 
-- Scroll to specific verse: -->
+- Scroll to specific verse:
 
-<!-- ![Screenshot](./test.jpg) -->
+```bash
+<QuranPageLayout
+      chapterId={67}
+      type={QuranTypesEnums.chapter}
+      QURAN_FONTS_API="https://your-domain/fonts/"
+      selectedBookedMarkedVerse={{
+        chapter_code_v1: 194,
+        chapter_id: 67,
+        id: 5263,
+        page_number: 563,
+        text_uthmani:
+          'أَفَمَن يَمْشِى مُكِبًّا عَلَىٰ وَجْهِهِۦٓ أَهْدَىٰٓ أَمَّن يَمْشِى سَوِيًّا عَلَىٰ صِرَٰطٍ مُّسْتَقِيمٍ',
+        verse_font_famliy: 'QCF_P563',
+        verse_key: '67:22',
+        verse_number: 22,
+      }}
+      onBookMarkedVerse={verse => {
+        console.log(verse);
+      }}
+    />
+```
+
+![Gif](./videos/1.gif)

@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
-import {FlatList, SafeAreaView, View} from 'react-native';
+import {FlatList, I18nManager, SafeAreaView, View} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {
   IAudioPlayerRef,
@@ -74,9 +74,12 @@ const QuranPageLayout = ({
     }
   }, [isLoading]);
   const scrollToPageIndex = () => {
-    const selectedBookMarkedVerseIndex = chapterVerses?.findIndex(
+    let selectedBookMarkedVerseIndex = chapterVerses?.findIndex(
       item => item?.page_number == selectedBookedMarkedVerse?.page_number,
     );
+    selectedBookMarkedVerseIndex = I18nManager.isRTL
+      ? chapterVerses?.length - 1 - selectedBookMarkedVerseIndex
+      : selectedBookMarkedVerseIndex;
     setTimeout(() => {
       flatlistRef?.current?.scrollToIndex({
         index: selectedBookMarkedVerseIndex,
