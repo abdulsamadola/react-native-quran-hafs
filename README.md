@@ -92,7 +92,7 @@ export default App;
 
 ## How to:
 
-- Scroll to specific verse:
+- Automatic scrolling to specific verse:
 
 ```bash
 <QuranPageLayout
