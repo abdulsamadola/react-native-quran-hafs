@@ -18,9 +18,7 @@ It's a simple package allowing you to display the quran as mushaf
 
 - Install this font family [QCF_BSML](https://github.com/quran/quran.com-images/blob/master/res/fonts/QCF_BSML.TTF) and change its extention to be .ttf not .TTF
 
-- install these packages:
-  -- @react-native-clipboard/clipboard.
-  -- @react-native-community/slider.
+- install these packages: @react-native-clipboard/clipboard,@react-native-community/slider,axios,react-native-dynamic-fonts,react-native-fs,react-native-responsive-fontsize,react-native-track-player.
 
 - Upload the [fonts](https://github.com/quran/quran.com-images/tree/master/res/fonts) files as it is to you server so it can be easily downloaded
 
