@@ -24,6 +24,12 @@ It's a simple package allowing you to display the quran as mushaf
 <picture>
 <img src="./screenshots/3.png" width="30%" height="20%" />
 </picture>
+<picture>
+<img src="./screenshots/4.png" width="30%" height="20%" />
+</picture>
+<picture>
+<img src="./screenshots/5.png" width="30%" height="20%" />
+</picture>
 
 ## Preinstallation
 

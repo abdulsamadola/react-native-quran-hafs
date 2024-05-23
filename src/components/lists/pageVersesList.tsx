@@ -143,7 +143,7 @@ const PageVersesList = (props: IPageVersesList) => {
             <View style={styles.juzNumberCircle}>
               <Text style={styles.txt}>الجزء {juzNumber}</Text>
             </View>
-            {!showChapterName && (
+            {(!showChapterName || type === QuranTypesEnums.juz) && (
               <View style={styles.juzNumberCircle}>
                 <Text style={[styles.txt, {fontFamily: FONT_FAMILY.BISMLLAH}]}>
                   {_renderChapterName(chapterId)}
