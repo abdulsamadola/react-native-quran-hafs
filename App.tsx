@@ -3,7 +3,7 @@ import {IMAGES} from './src/common';
 const App = () => {
   return (
     <QuranPageLayout
-      chapterId={80}
+      chapterId={14}
       type={QuranTypesEnums.chapter}
       QURAN_FONTS_API="https://meccamuqra-public-mixed.b-cdn.net/meccamuqra/fonts/"
       backgroundImage={IMAGES.mushafFrame}
