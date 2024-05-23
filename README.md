@@ -14,7 +14,7 @@ It's a simple package allowing you to display the quran as mushaf
 - Use this method [_renderChapterAyahs(chapterId)] to render the number of surah verses(Ayahs).
 - Scroll to a specific verse(Ayah) page.
 
-[Screenshot](./screenshots/1.png)
+![Screenshot](./screenshots/1.png)
 
 ## Preinstallation
 
