@@ -6,6 +6,14 @@ react-native-quran-hafs
 
 It's a simple package allowing you to display the quran as mushaf
 
+## Features
+
+- Display the quran like mushaf.
+- Selected a single verse to copy or bookmark it.
+- Use this method [_renderChapterName(chapterId)] to render the surah name like mushaf.
+- Use this method [_renderChapterAyahs(chapterId)] to render the number of surah verses(Ayahs).
+- Scroll to a specific verse(Ayah) page.
+
 ## Preinstallation
 
 - Install this font family [QCF_BSML](https://github.com/quran/quran.com-images/blob/master/res/fonts/QCF_BSML.TTF) and change its extention to be .ttf not .TTF
@@ -24,16 +32,19 @@ cd ..
 npm run ios
 ```
 
-## Features
+## Apis
 
-| Option              | Description                                           | Type                         | Required |
-| ------------------- | ----------------------------------------------------- | ---------------------------- | -------- |
-| chapterId           | The surah or juz id                                   | number                       | true     |
-| type                | Its a type of what you want to display (surah or juz) | QuranTypesEnums              | true     |
-| QURAN_FONTS_API     | Fonts url uploaded to your server                     | string                       | true     |
-| backgroundImage     | The background of mushaf screen                       | ImageSourcePropType          | false    |
-| surahNameFrameImage | The frame of surah name                               | ImageSourcePropType          | false    |
-| onBookMarkedVerse   | Callback funtion tha return verse as ISurahVerse      | (verse: ISurahVerse) => void | false    |
+| Option                    | Description                                                                           | Type                         | Required |
+| ------------------------- | ------------------------------------------------------------------------------------- | ---------------------------- | -------- |
+| chapterId                 | The surah or juz id                                                                   | number                       | true     |
+| type                      | Its a type of what you want to display (surah or juz)                                 | QuranTypesEnums              | true     |
+| QURAN_FONTS_API           | Fonts url uploaded to your server                                                     | string                       | true     |
+| backgroundImage           | The background of mushaf screen                                                       | ImageSourcePropType          | false    |
+| surahNameFrameImage       | The frame of surah name                                                               | ImageSourcePropType          | false    |
+| onBookMarkedVerse         | Callback funtion tha return verse as ISurahVerse                                      | (verse: ISurahVerse) => void | false    |
+| selectedBookedMarkedVerse | The verse object returned by onBookMarkedVerse function to scroll to passed ayah page | ISurahVerse                  | false    |
+| resizeImageBackgroundMode | It's a resize mode of mushaf background image                                         | ImageResizeMode              | false    |
+| selectionColor            | It's a color when select a specific ayah                                              | ColorValue                   | false    |
 
 ## Usage Example
 
@@ -52,4 +63,4 @@ const App = () => {
 export default App;
 ```
 
-![Screenshot](./test.jpg)
+<!-- ![Screenshot](./test.jpg) -->
