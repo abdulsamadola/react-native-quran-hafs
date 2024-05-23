@@ -14,6 +14,8 @@ It's a simple package allowing you to display the quran as mushaf
 - Use this method [_renderChapterAyahs(chapterId)] to render the number of surah verses(Ayahs).
 - Scroll to a specific verse(Ayah) page.
 
+[Screenshot](./screenshots/1.png)
+
 ## Preinstallation
 
 - Install this font family [QCF_BSML](https://github.com/quran/quran.com-images/blob/master/res/fonts/QCF_BSML.TTF) and change its extention to be .ttf not .TTF
@@ -30,7 +32,7 @@ It's a simple package allowing you to display the quran as mushaf
 
 - Upload the [fonts](https://github.com/quran/quran.com-images/tree/master/res/fonts) files as it is to you server so it can be easily downloaded
 
-- The fonts url example [https://your-domain/fonts/]
+- The fonts url example https://your-domain/fonts/
 
 ## How to install and run
 
