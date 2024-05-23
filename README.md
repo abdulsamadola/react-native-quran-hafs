@@ -20,7 +20,8 @@ It's a simple package allowing you to display the quran as mushaf
 
 - install these packages:
 
-  1. @react-native-clipboard/clipboard.
+  - @react-native-clipboard/clipboard.
+
   2. @react-native-community/slider.
   3. axios.
   4. react-native-dynamic-fonts.
