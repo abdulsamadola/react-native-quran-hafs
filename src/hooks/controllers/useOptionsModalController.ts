@@ -39,6 +39,7 @@ const useOptionsModalController = ({
   }) => {
     const trackData = await TrackPlayer.getActiveTrack();
     if (trackData?.chapter_id != chapterId) {
+      await TrackPlayer.pause();
       await getChapterAudionUrl({
         reciterId: reciterId,
         chapterId,

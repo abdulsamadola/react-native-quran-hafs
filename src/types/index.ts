@@ -101,7 +101,7 @@ export interface IQuranChapters {
 export interface IReciter {
   id: number;
   reciter_id: number;
-  reciter_name: string;
+  name: string;
 }
 
 export interface IAudioPlayerRef {

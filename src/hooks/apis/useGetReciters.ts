@@ -30,9 +30,9 @@ const useGetReciters = ({
       )
       .join('&');
     try {
-      const url = `${QURAN_API}/resources/recitations`;
+      const url = `${QURAN_API}/audio/reciters?${queryString}`;
       const response = await axiosInstance.get(url);
-      const reciters: IReciter[] = response.data.recitations;
+      const reciters: IReciter[] = response.data?.reciters;
       if (type === QuranTypesEnums.chapter)
         getChapterAudionUrl({reciterId: reciters[0]?.id, chapterId});
       setAllReciters(reciters);

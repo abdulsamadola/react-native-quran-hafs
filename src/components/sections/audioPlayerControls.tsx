@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, TouchableOpacity, View} from 'react-native';
+import {I18nManager, Image, TouchableOpacity, View} from 'react-native';
 import {IMAGES} from '../../common';
 import {
   IReciter,
@@ -34,9 +34,16 @@ const AudioPlayerControls = ({
 }: IProps) => {
   const {onPlayerPress} = useOptionsModalController({} as any);
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+      }}>
       <TouchableOpacity
-        style={{marginHorizontal: 12, transform: [{rotate: '180deg'}]}}
+        style={{
+          marginHorizontal: 12,
+          transform: [{rotate: I18nManager.isRTL ? '0deg' : '180deg'}],
+        }}
         onPress={() => {
           if (!versesBeforeAndAfterCurrentVerse?.beforeCurrentVerse) return;
           if (versesBeforeAndAfterCurrentVerse?.beforeCurrentVerse)
@@ -65,7 +72,10 @@ const AudioPlayerControls = ({
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={{marginHorizontal: 12}}
+        style={{
+          marginHorizontal: 12,
+          transform: [{rotate: I18nManager.isRTL ? '180deg' : '0deg'}],
+        }}
         onPress={() => {
           if (!versesBeforeAndAfterCurrentVerse?.afterCurrentVerse) return;
           onPlayerPress({

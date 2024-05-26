@@ -156,7 +156,7 @@ const QuranPageLayout = ({
         )}
         <AudioPlayer
           ref={audioPlayerRef}
-          chapterId={selectedVerse?.chapter_id}
+          chapterId={selectedVerse?.chapter_id ?? chapterId}
           setSelectedVerse={setSelectedVerse}
           selectedVerse={selectedVerse}
           allReciter={allReciters}

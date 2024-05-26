@@ -75,7 +75,6 @@ const PageVersesList = (props: IPageVersesList) => {
     });
   };
   const pageLinesCount = pageVersesToDisplay?.length;
-
   return (
     <View style={styles.containerView}>
       <ImageBackground
