@@ -1,4 +1,4 @@
-declare module 'react-native-dynamic-fonts' {
+declare module '@vitrion/react-native-load-fonts' {
   export const loadFont: (
     targetFont: string,
     base64: string,
