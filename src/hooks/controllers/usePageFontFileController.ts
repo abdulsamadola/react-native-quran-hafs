@@ -1,6 +1,6 @@
 import RNFS from 'react-native-fs';
-import {loadFont} from 'react-native-dynamic-fonts';
-import {isFileExists} from '../../utils';
+import { loadFont } from '@vitrion/react-native-load-fonts';
+import { isFileExists } from '../../utils';
 
 const _renderPageNumber = (pageNumber: number) => {
   let pageNumberFormat = '';
@@ -60,7 +60,7 @@ const loadFontFamily = async (
   targetFont: string,
   onFontLoaded: () => void,
 ) => {
-  const base64 = await RNFS.readFile(fontFilePath, {encoding: 'base64'});
+  const base64 = await RNFS.readFile(fontFilePath, { encoding: 'base64' });
   return loadFont(targetFont, base64, 'ttf').then((name: string) => {
     console.log('Loaded font successfully. Font name is: ', name);
     onFontLoaded();
@@ -69,7 +69,7 @@ const loadFontFamily = async (
 };
 
 const usePageFontFileController = () => {
-  return {downoladThePageFont, _fontFileFormatGenerator};
+  return { downoladThePageFont, _fontFileFormatGenerator };
 };
 
 export default usePageFontFileController;

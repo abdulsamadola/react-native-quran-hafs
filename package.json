@@ -16,7 +16,7 @@
     "axios": "^1.6.8",
     "react": "18.2.0",
     "react-native": "0.74.0",
-    "react-native-dynamic-fonts": "^0.3.2",
+    "@vitrion/react-native-load-fonts": "^0.3.1",
     "react-native-fs": "^2.20.0",
     "react-native-quran-hafs": "^1.0.3",
     "react-native-responsive-fontsize": "^0.5.1",
